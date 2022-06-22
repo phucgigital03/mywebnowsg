@@ -1,8 +1,11 @@
+import { DefaultHome, DefaultLayout } from './layouts';
 
 function App() {
-  return (
-    <h2>phuc nguyen digital</h2>
-  );
+    return (
+        <DefaultLayout>
+            <div>phuc nguyen</div>
+        </DefaultLayout>
+    );
 }
 
 export default App;
