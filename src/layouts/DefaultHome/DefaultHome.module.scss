@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+// model position
+.wrapper {
+    & .position {
+        position: fixed;
+        display: block;
+        background-color: rgba(104, 103, 103, 0.7);
+    }
+}

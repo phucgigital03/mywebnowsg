@@ -1,0 +1,36 @@
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.border-nav {
+    padding: 12px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.color-red {
+    width: 70px;
+    display: block;
+    height: 3px;
+    background-color: var(--primary);
+}
+
+.product {
+    padding: 35px 18px;
+    max-width: 100%;
+}
+
+@media (min-width: 740px) {
+    .product {
+        width: auto;
+    }
+}
+
+@media (min-width: 1113px) {
+    .product {
+        width: 1200px;
+    }
+}

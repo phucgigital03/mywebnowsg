@@ -1,0 +1,24 @@
+.layout-show {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    position: relative;
+    width: 1030px;
+    height: 508px;
+    margin: auto auto;
+    background-color: white;
+    padding: 35px 30px;
+}
+
+.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 3rem;
+    padding: 5px 14px;
+    cursor: pointer;
+}
