@@ -1,6 +1,6 @@
 import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TippyHead from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 const nodenav = [
     {
         title: 'ALL ITEMS',
-        path: config.routes.Home,
+        path: config.routes.Allitem,
     },
     {
         title: 'TEE',
@@ -49,7 +49,6 @@ const nodenav = [
 ];
 
 function Header() {
-    console.log('render');
     return (
         <header className={cx('wrapper')}>
             <div className={cx('account')}>
@@ -92,9 +91,9 @@ function Header() {
                 <div className={cx('menu-nav-inner')}>
                     <ul className={cx('list-btn')}>
                         <li className={cx('btn-items')}>
-                            <a href="/" className={cx('nav-link')}>
+                            <Link to={config.routes.Home} className={cx('nav-link')}>
                                 HOME
-                            </a>
+                            </Link>
                         </li>
                         <span>
                             <TippyHead
@@ -102,16 +101,16 @@ function Header() {
                                 interactive
                                 placement="bottom"
                                 delay={[0, 500]}
-                                offset={[44, 10]}
+                                offset={[44, 0]}
                                 render={(attrs) => (
                                     <div className={cx('box-popper')} tabIndex="-1" {...attrs}>
                                         <Popper>
                                             <ul className={cx('menu-nav-list')}>
                                                 {nodenav.map((node, index) => (
                                                     <li key={index} className={cx('items-nav')}>
-                                                        <NavLink className={cx('item-clo-link')} to={node.path}>
+                                                        <Link className={cx('item-clo-link')} to={node.path}>
                                                             {node.title}
-                                                        </NavLink>
+                                                        </Link>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -120,24 +119,24 @@ function Header() {
                                 )}
                             >
                                 <li className={cx('btn-items')}>
-                                    <a href="/" className={cx('nav-link')}>
+                                    <Link to={config.routes.Allitem} className={cx('nav-link')}>
                                         CLOTHING
                                         <span className={cx('arrow-down')}>
                                             <FontAwesomeIcon icon={faSortDown} />
                                         </span>
-                                    </a>
+                                    </Link>
                                 </li>
                             </TippyHead>
                         </span>
                         <li className={cx('btn-items')}>
-                            <a href="/" className={cx('nav-link')}>
+                            <Link to={config.routes.Home} className={cx('nav-link')}>
                                 CONTACT
-                            </a>
+                            </Link>
                         </li>
                         <li className={cx('btn-items', 'sale')}>
-                            <a href="/" className={cx('nav-link')}>
+                            <Link to={config.routes.Home} className={cx('nav-link')}>
                                 CLEARANCE SALE
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                     <div className={cx('feature-header')}>

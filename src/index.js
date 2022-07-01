@@ -3,12 +3,18 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from '~/component/GlobalStyles/GlobalStyles';
+import FeatureModel from '~/component/FeatureModel';
+import Storage from '~/component/Storage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // <React.StrictMode>
     <GlobalStyles>
-        <App />
+        <Storage>
+            <FeatureModel>
+                <App />
+            </FeatureModel>
+        </Storage>
     </GlobalStyles>,
     // </React.StrictMode>
 );

@@ -5,7 +5,7 @@
 }
 
 .inner {
-    width: var(--default-height-header);
+    width: var(--default-width-header);
     max-width: 100%;
     height: 40px;
     padding: 0px 15px;
@@ -54,7 +54,7 @@
 }
 
 .img-inner {
-    width: var(--default-height-header);
+    width: var(--default-width-header);
     height: 100px;
     padding: 0px 15px;
     display: flex;
@@ -72,7 +72,7 @@
 }
 
 .menu-nav-inner {
-    width: var(--default-height-header);
+    width: var(--default-width-header);
     padding: 0px 15px;
     display: flex;
     justify-content: space-between;

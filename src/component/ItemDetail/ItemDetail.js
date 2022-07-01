@@ -2,25 +2,79 @@ import styles from './ItemDetail.module.scss';
 import classnames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { useState, useRef, memo, useContext } from 'react';
 
 import Button from '~/component/Button';
 import InputColor from './InputColor';
-import { useState } from 'react';
+import InputSize from './InputSize';
+import { Data } from '~/component/Storage';
+import { addProduct } from '~/component/Storage/';
+import ListImage from './ListImage';
 
 const cx = classnames.bind(styles);
 
-const arrcolors = ['blue', 'yellow', 'black', 'white'];
+function createObjProduct(nameRef, priceRef, imageRef, manyRef, valueColor, valueSize) {
+    const nameProduct = nameRef.current.innerText;
+    const price = Number(priceRef.current.innerText.split(' ')[0]);
+    const imageProduct = imageRef.current.src;
+    const manyProduct = Number(manyRef.current.value);
+    const colorProduct = valueColor;
+    const sizeProduct = valueSize;
+    const objCreateProduct = {
+        nameProduct,
+        price,
+        imageProduct,
+        manyProduct,
+        colorProduct,
+        sizeProduct,
+    };
+    return objCreateProduct;
+}
 
-function ItemDetail({ images }) {
-    const [indexInp, setIndexInp] = useState(0);
-    const [valueColor, setValueColor] = useState(arrcolors[0]);
+function ItemDetail({ product, handleCloseModel }) {
+    const [, dispatch] = useContext(Data);
+    const nameRef = useRef();
+    const priceRef = useRef();
+    const imageRef = useRef();
+    const manyRef = useRef();
+    const [valueColor, setValueColor] = useState('white');
+    const [indexInpColor, setIndexInpColor] = useState(0);
+    const [valueSize, setValueSize] = useState('S');
+    const [indexInpSize, setIndexInpSize] = useState(0);
+    const [manyProduct, setManyProduct] = useState(1);
 
-    // console.log(valueColor);
-
-    const handleGetIndex = (e) => {
+    const handleGetIndexColor = (e) => {
         const index = Number(e.target.dataset.id);
-        setValueColor(arrcolors[index]);
-        setIndexInp(index);
+        setValueColor(product[0].color[index]);
+        setIndexInpColor(index);
+    };
+
+    const handleGetIndexSize = (e) => {
+        const index = Number(e.target.dataset.id);
+        setValueSize(product[0].size[index]);
+        setIndexInpSize(index);
+    };
+
+    const handlePlusMany = () => {
+        setManyProduct((manyProduct) => (manyProduct += 1));
+    };
+
+    const handleMinusMany = () => {
+        setManyProduct((manyProduct) => {
+            if (manyProduct === 1) {
+                return 1;
+            } else {
+                return (manyProduct -= 1);
+            }
+        });
+    };
+
+    const handleAddProduct = () => {
+        const objCreateProduct = createObjProduct(nameRef, priceRef, imageRef, manyRef, valueColor, valueSize);
+        dispatch(addProduct(objCreateProduct));
+        if (handleCloseModel) {
+            handleCloseModel();
+        }
     };
 
     return (
@@ -30,30 +84,17 @@ function ItemDetail({ images }) {
                     <div className={cx('all-img')}>
                         <div className={cx('wrap-img')}>
                             <a href="/" className={cx('link-pro')}>
-                                <img src={images.tee} alt="ao" />
+                                <img ref={imageRef} src={product[0].imageProduct} alt="ao" />
                             </a>
                         </div>
-                        <ul className={cx('show-product')}>
-                            <li className={cx('list-img')}>
-                                <img src={images.tee} alt="ao" />
-                            </li>
-                            <li className={cx('list-img')}>
-                                <img src={images.tee} alt="ao" />
-                            </li>
-                            <li className={cx('list-img')}>
-                                <img src={images.tee} alt="ao" />
-                            </li>
-                            <li className={cx('list-img')}>
-                                <img src={images.tee} alt="ao" />
-                            </li>
-                        </ul>
+                        <ListImage product={product[0]} />
                     </div>
                 </div>
                 <div className="col l-7">
                     <div className={cx('info-item')}>
                         <h3 className={cx('name-product')}>
-                            <a href="/" className={cx('name-link')}>
-                                PIXEL NOWSAIGON CAP
+                            <a ref={nameRef} href="/" className={cx('name-link')}>
+                                {product[0].nameProduct}
                             </a>
                         </h3>
                         <div className={cx('wrap-brand')}>
@@ -66,40 +107,68 @@ function ItemDetail({ images }) {
                                 <span>Còn hàng</span>
                             </p>
                         </div>
-                        <span className={cx('price')}>280000 vnd</span>
+                        <span ref={priceRef} className={cx('price')}>
+                            {`${product[0].price} đ`}
+                        </span>
                         <div className={cx('descrition')}>
                             <p>NEEDS OF WISDOM® / Streetwear / Based in Saigon / Made in Vietnam</p>
                             <a href="/">Xem chi tiết</a>
                         </div>
+                        <div className={cx('watch-size')}>
+                            <h3>Size:</h3>
+                            {product[0].size.map((size, index) => {
+                                return index === indexInpSize ? (
+                                    <InputSize
+                                        dataid={index}
+                                        onChange={handleGetIndexSize}
+                                        key={index}
+                                        value={size}
+                                        checked
+                                    >
+                                        {size}
+                                    </InputSize>
+                                ) : (
+                                    <InputSize dataid={index} onChange={handleGetIndexSize} key={index} value={size}>
+                                        {size}
+                                    </InputSize>
+                                );
+                            })}
+                            {console.log(product[0])}
+                        </div>
                         <div className={cx('watch-color')}>
-                            <h3>Màu sắc</h3>
-                            {arrcolors.map((color, index) => {
-                                return index === indexInp ? (
+                            <h3>Màu sắc:</h3>
+                            {product[0].color.map((color, index) => {
+                                return index === indexInpColor ? (
                                     <InputColor
                                         dataid={index}
-                                        onChange={handleGetIndex}
+                                        onChange={handleGetIndexColor}
                                         key={index}
                                         value={color}
                                         checked
                                     />
                                 ) : (
-                                    <InputColor dataid={index} onChange={handleGetIndex} key={index} value={color} />
+                                    <InputColor
+                                        dataid={index}
+                                        onChange={handleGetIndexColor}
+                                        key={index}
+                                        value={color}
+                                    />
                                 );
                             })}
                         </div>
                         <div className={cx('manyandbtn')}>
                             <div className={cx('many')}>
-                                <input type="text" value={1} onChange={() => {}} />
+                                <input ref={manyRef} type="text" value={manyProduct} onChange={() => {}} />
                                 <div className={cx('wrap-btn')}>
-                                    <button className={cx('btn')}>
+                                    <button className={cx('btn')} onClick={handleMinusMany}>
                                         <FontAwesomeIcon icon={faMinus} />
                                     </button>
                                     <button className={cx('btn')}>
-                                        <FontAwesomeIcon icon={faPlus} />
+                                        <FontAwesomeIcon icon={faPlus} onClick={handlePlusMany} />
                                     </button>
                                 </div>
                             </div>
-                            <Button primary medium>
+                            <Button primary medium onClick={handleAddProduct}>
                                 THÊM VÀO GIỎ HÀNG
                             </Button>
                         </div>
@@ -110,4 +179,4 @@ function ItemDetail({ images }) {
     );
 }
 
-export default ItemDetail;
+export default memo(ItemDetail);

@@ -7,6 +7,7 @@ const cx = classNames.bind(styles);
 function Button({
     to,
     href,
+    dataid,
     children,
     primary = false,
     disable = false,
@@ -37,6 +38,7 @@ function Button({
 
     return (
         <Component
+            data-id={dataid}
             href={href}
             to={to}
             className={cx('btn', {

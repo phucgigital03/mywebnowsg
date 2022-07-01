@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Fragment } from 'react';
+import { Fragment, memo } from 'react';
 
 import { DefaultHome } from './layouts';
 import routes from '~/router';
 
 function App() {
-    let Layout = DefaultHome;
     return (
         <Router>
             <Routes>
                 {routes.map((route, index) => {
+                    let Layout = DefaultHome;
                     const Content = route.component;
 
                     if (route.layout === null) {
@@ -35,4 +35,4 @@ function App() {
     );
 }
 
-export default App;
+export default memo(App);

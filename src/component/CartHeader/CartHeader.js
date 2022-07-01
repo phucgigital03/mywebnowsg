@@ -1,113 +1,94 @@
 import styles from './CartHeader.module.scss';
 import classNames from 'classnames/bind';
-import TippyHead from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faClose, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-import { memo, useEffect } from 'react';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { memo, useContext } from 'react';
 
-import Popper from '~/component/Popper';
-import Button from '~/component/Button';
-import images from '~/assets/images';
-import { useState } from 'react';
+import { Data } from '~/component/Storage';
+import { plusProduct, minusProduct, deleProduct, closeModelProductCart, turnOffModelCart } from '~/component/Storage';
+import ModelCart from './ModelCart';
 
 const cx = classNames.bind(styles);
 
-function CartHeader({ productId }) {
-    const [manyproduct, setManyproduct] = useState(0);
-    const [products, setProducts] = useState([2]);
+function CartHeader() {
+    const [state, dispatch] = useContext(Data);
+    const { cartProduct, display } = state;
 
-    useEffect(() => {
-        if (!productId) {
-            console.log(1);
-            return;
-        }
-    }, [productId]);
-
-    useEffect(() => {
-        if (!manyproduct) {
-            console.log(1);
-            return;
-        }
-        console.log(2);
-    }, [manyproduct]);
-
-    const handlePlusProduct = () => {
-        setManyproduct((valueproduct) => valueproduct + 1);
+    console.log(display);
+    const handlePlusProduct = (e) => {
+        const parentInputMany = e.target.closest('.parent');
+        const inputMany = parentInputMany.querySelector('.input-value');
+        const btnPlus = e.target.closest('.plus');
+        const index = Number(btnPlus.dataset.id);
+        const valueMany = Number(inputMany.value) + 1;
+        dispatch(plusProduct(index, valueMany));
     };
 
-    const handleMinusProduct = () => {
-        setManyproduct((valueproduct) => {
-            if (valueproduct === 1) {
-                return 1;
-            }
-            return valueproduct - 1;
-        });
+    const handleMinusProduct = (e) => {
+        const parentInputMany = e.target.closest('.parent');
+        const inputMany = parentInputMany.querySelector('.input-value');
+        const btnMinus = e.target.closest('.minus');
+        const index = Number(btnMinus.dataset.id);
+        let valueMany;
+        if (Number(inputMany.value) === 1) {
+            valueMany = 1;
+        } else {
+            valueMany = Number(inputMany.value) - 1;
+        }
+        dispatch(minusProduct(index, valueMany));
+    };
+
+    const handledeleProduct = (e) => {
+        const btnDele = e.target.closest(`.dele-product`);
+        const index = btnDele.dataset.id;
+        dispatch(deleProduct(index));
+    };
+
+    const handleCloseModelCart = (e) => {
+        const inputCart = e.target;
+        const checked = inputCart.checked;
+        dispatch(closeModelProductCart(checked));
+    };
+
+    const handleCloseModelCartBtn = () => {
+        dispatch(turnOffModelCart());
+    };
+
+    const handleDefaultCart = (e) => {
+        e.preventDefault();
     };
 
     return (
-        <TippyHead
-            // visible
-            interactive
-            placement="bottom-end"
-            delay={[0, 500]}
-            offset={[0, 10]}
-            render={(attrs) => (
-                <div className={cx('box-popper')} tabIndex="-1" {...attrs}>
-                    <Popper>
-                        {products.length < 1 ? (
-                            <p className={cx('no-product')}>you dont have product</p>
-                        ) : (
-                            <div className={cx('have-product')}>
-                                <ul className={cx('list-product')}>
-                                    <li>
-                                        <div className={cx('wrap-img')}>
-                                            <img src={images.tee} alt="tee" />
-                                        </div>
-                                        <div className={cx('info-product')}>
-                                            <div className={cx('title-product')}>
-                                                <h3 className={cx('product-name')}>
-                                                    <a href="/">PIXEL NOWSAIGON CAP</a>
-                                                </h3>
-                                                <button className={cx('dele-pro')}>
-                                                    <FontAwesomeIcon icon={faClose} />
-                                                </button>
-                                            </div>
-                                            <p className={cx('price')}>280000 vnd</p>
-                                            <div className={cx('many-product')}>
-                                                <button className={cx('btn')} onClick={handleMinusProduct}>
-                                                    <FontAwesomeIcon icon={faMinus} />
-                                                </button>
-                                                <input
-                                                    className={cx('many-input')}
-                                                    type="text"
-                                                    value={manyproduct || 1}
-                                                    onChange={() => {}}
-                                                />
-                                                <button className={cx('btn')} onClick={handlePlusProduct}>
-                                                    <FontAwesomeIcon icon={faPlus} />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div className={cx('sum-price')}>
-                                    <p className={cx('sum-price--text')}>Tổng tiền tạm tính:</p>
-                                    <span className={cx('sum-price-number')}>280000 vnd</span>
-                                </div>
-                                <Button large primary to="/">
-                                    TIẾN HÀNH THANH TOÁN
-                                </Button>
-                            </div>
-                        )}
-                    </Popper>
-                </div>
+        <div className={cx('cart')}>
+            <FontAwesomeIcon icon={faCartShopping} />
+            <span className={cx('many')}>{cartProduct.length}</span>
+            <input
+                type="checkbox"
+                id="show-cart"
+                name="show-cart"
+                className={cx('input-cart')}
+                checked={display ? true : false}
+                onChange={handleCloseModelCart}
+            />
+            {display && (
+                <label className={cx('show-cart')}>
+                    <div
+                        onClick={handleDefaultCart}
+                        className={cx('layout', {
+                            ['animation-cart']: display,
+                        })}
+                    >
+                        <ModelCart
+                            cartProduct={cartProduct}
+                            handleCloseModelCartBtn={handleCloseModelCartBtn}
+                            handleMinusProduct={handleMinusProduct}
+                            handlePlusProduct={handlePlusProduct}
+                            handledeleProduct={handledeleProduct}
+                        />
+                    </div>
+                </label>
             )}
-        >
-            <div className={cx('cart')}>
-                <FontAwesomeIcon icon={faCartShopping} />
-                <span className={cx('many')}>0</span>
-            </div>
-        </TippyHead>
+        </div>
     );
 }
 

@@ -1,5 +1,6 @@
 const routes = {
     Home: '/',
+    Allitem: '/allitem',
     Pants: '/pants',
     Sweater: '/sweater',
     Tee: '/tee',
@@ -8,6 +9,7 @@ const routes = {
     Jacket: '/jacket',
     Cap: '/cap',
     Sale: '/sale',
+    ItemDetail: '/@:nameproduct',
 };
 
 export default routes;

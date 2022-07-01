@@ -2,6 +2,13 @@
     margin-bottom: 16px;
 }
 
+@media (min-width: 1113px) {
+    .wrapper.layout {
+        flex: 0 0 33.33333%;
+        max-width: 33.33333%;
+    }
+}
+
 .content {
     &:hover .show {
         display: block;

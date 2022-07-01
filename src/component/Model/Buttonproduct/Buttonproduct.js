@@ -1,20 +1,21 @@
 import styles from './Buttonproduct.module.scss';
 import classNames from 'classnames/bind';
-import { useContext } from 'react';
 
 import Button from '~/component/Button';
-import { TranData } from '~/layouts/DefaultHome/DefaultHome';
+import { useContext } from 'react';
+import { TranData } from '~/component/FeatureModel/FeatureModel';
 
 const cx = classNames.bind(styles);
 
-function Buttonproduct() {
-    const [handleDisplayModel] = useContext(TranData);
+function Buttonproduct({ dataid, nameProduct }) {
+    const nameResult = nameProduct.split(' ').join('');
+    const [, handleDisplayModel, handleSwitchPage] = useContext(TranData);
     return (
         <div className={cx('wrapper-btn')}>
-            <Button to="/tee" primary>
+            <Button dataid={dataid} primary onClick={handleSwitchPage} to={`/@${nameResult}-${dataid}`}>
                 Tuỳ chọn
             </Button>
-            <Button to="/" primary onClick={handleDisplayModel}>
+            <Button dataid={dataid} primary onClick={handleDisplayModel}>
                 Xem nhanh
             </Button>
         </div>

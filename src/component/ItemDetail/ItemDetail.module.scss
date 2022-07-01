@@ -17,22 +17,6 @@
     }
 }
 
-.show-product {
-    display: flex;
-    padding: 10px 5px;
-    margin-top: 6px;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.list-img {
-    width: 75px;
-    height: 75px;
-    list-style-type: none;
-    padding: 6px;
-    border: 1px solid #ccc;
-}
-
 // name product
 .name-product {
     margin: 0px 0px 10px;
@@ -40,6 +24,7 @@
     font-weight: 400;
     line-height: 3.5rem;
     color: #333;
+    text-transform: uppercase;
 }
 
 .name-link {
@@ -101,15 +86,20 @@
 }
 
 //  color product
+.watch-size,
 .watch-color {
     & > h3 {
         margin: 0px 0px 10px;
         text-align: left;
         min-width: 100px;
         font-weight: 400;
-        font-size: 1.4rem;
+        font-size: 1.8rem;
         color: #707070;
     }
+}
+
+.watch-size {
+    margin-bottom: 20px;
 }
 
 // many product

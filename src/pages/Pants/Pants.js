@@ -6,7 +6,7 @@ const cx = classNames.bind(styles);
 function Pants() {
     return (
         <div className={cx('content')}>
-            <h2>Pants pages</h2>
+            <h2>pants</h2>
         </div>
     );
 }

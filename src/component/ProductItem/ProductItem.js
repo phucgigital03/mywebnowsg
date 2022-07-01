@@ -7,20 +7,24 @@ import Model from '~/component/Model';
 
 const cx = classNames.bind(styles);
 
-function ProductItem({ product }) {
+function ProductItem({ product, className }) {
     return (
-        <div className={cx('wrapper', 'col', 'l-3', 'm-4')}>
+        <div
+            className={cx('wrapper', 'col', 'l-3', 'm-4', {
+                [className]: className,
+            })}
+        >
             <div className={cx('content')}>
                 <div className={cx('wrap-img')}>
-                    <img src={product.img} alt="tee" />
+                    <img src={product.imageProduct} alt="tee" />
                     <Model className={cx('show')}>
-                        <Buttonproduct />
+                        <Buttonproduct dataid={product.id} nameProduct={product.nameProduct} />
                     </Model>
                 </div>
                 <div className={cx('info')}>
                     <h3 className={cx('name')}>
                         <NavLink to="/" className={cx('nav-link')}>
-                            {product.name}
+                            {product.nameProduct}
                         </NavLink>
                     </h3>
                     <p className={cx('price')}>{`${product.price}đ`}</p>
