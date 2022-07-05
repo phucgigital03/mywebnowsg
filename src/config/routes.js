@@ -1,5 +1,6 @@
 const routes = {
     Home: '/',
+    Contact: '/contact',
     Allitem: '/allitem',
     Pants: '/pants',
     Sweater: '/sweater',

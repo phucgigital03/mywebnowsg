@@ -1,14 +1,17 @@
 import config from '~/config';
-import AllProduct from '~/pages/AllProduct';
+import AllProductHome from '~/pages/AllProductHome';
 import Allitem from '~/pages/AllItem';
 import Pants from '~/pages/Pants';
+import Tee from '~/pages/Tee';
+import Sweater from '~/pages/Sweater';
 import OneProduct from '~/pages/OneProduct';
+import Contact from '~/pages/Contact';
 import { DefaultLayout, LayoutProductDetail } from '~/layouts';
 
 const routes = [
     {
         path: config.routes.Home,
-        component: AllProduct,
+        component: AllProductHome,
     },
 
     {
@@ -22,8 +25,23 @@ const routes = [
         layout: DefaultLayout,
     },
     {
+        path: config.routes.Sweater,
+        component: Sweater,
+        layout: DefaultLayout,
+    },
+    {
+        path: config.routes.Tee,
+        component: Tee,
+        layout: DefaultLayout,
+    },
+    {
         path: config.routes.ItemDetail,
         component: OneProduct,
+        layout: LayoutProductDetail,
+    },
+    {
+        path: config.routes.Contact,
+        component: Contact,
         layout: LayoutProductDetail,
     },
 ];

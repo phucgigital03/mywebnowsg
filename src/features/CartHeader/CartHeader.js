@@ -10,32 +10,39 @@ import ModelCart from './ModelCart';
 
 const cx = classNames.bind(styles);
 
+function getIndAndManyProduct(event) {
+    const parentInputMany = event.target.closest('.parent');
+    const inputMany = parentInputMany.querySelector('.input-value');
+    const btnPlus = event.target.closest('.plus');
+    const index = Number(btnPlus.dataset.id);
+    const valueMany = Number(inputMany.value) + 1;
+    return [index, valueMany];
+}
+
+function getIndandInpManyProduct(event) {
+    const parentInputMany = event.target.closest('.parent');
+    const inputMany = parentInputMany.querySelector('.input-value');
+    const btnMinus = event.target.closest('.minus');
+    const index = Number(btnMinus.dataset.id);
+    return [index, inputMany];
+}
+
 function CartHeader() {
     const [state, dispatch] = useContext(Data);
     const { cartProduct, display } = state;
 
-    console.log(display);
-    const handlePlusProduct = (e) => {
-        const parentInputMany = e.target.closest('.parent');
-        const inputMany = parentInputMany.querySelector('.input-value');
-        const btnPlus = e.target.closest('.plus');
-        const index = Number(btnPlus.dataset.id);
-        const valueMany = Number(inputMany.value) + 1;
+    const handlePlusProduct = (event) => {
+        const [index, valueMany] = getIndAndManyProduct(event);
         dispatch(plusProduct(index, valueMany));
     };
 
-    const handleMinusProduct = (e) => {
-        const parentInputMany = e.target.closest('.parent');
-        const inputMany = parentInputMany.querySelector('.input-value');
-        const btnMinus = e.target.closest('.minus');
-        const index = Number(btnMinus.dataset.id);
+    const handleMinusProduct = (event) => {
         let valueMany;
-        if (Number(inputMany.value) === 1) {
-            valueMany = 1;
-        } else {
+        const [index, inputMany] = getIndandInpManyProduct(event);
+        if (Number(inputMany.value) !== 1) {
             valueMany = Number(inputMany.value) - 1;
+            dispatch(minusProduct(index, valueMany));
         }
-        dispatch(minusProduct(index, valueMany));
     };
 
     const handledeleProduct = (e) => {

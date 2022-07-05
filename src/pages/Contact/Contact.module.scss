@@ -1,0 +1,32 @@
+.content {
+    padding-bottom: 70px;
+
+    &::after {
+        content: '';
+        display: block;
+        background-color: var(--primary);
+        width: 100px;
+        height: 3px;
+        margin-top: 30px;
+    }
+}
+
+.title {
+    text-transform: uppercase;
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 20px 0px 10px;
+    line-height: 2.2rem;
+}
+
+.location-shop {
+    padding: 0px 6px;
+    & .item {
+        list-style-type: none;
+        font-size: 1.7rem;
+        line-height: 3rem;
+        + .item {
+            margin-top: 6px;
+        }
+    }
+}

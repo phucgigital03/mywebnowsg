@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 import TippyHead from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { memo } from 'react';
+import { memo, useContext } from 'react';
 
 import images from '~/assets/images';
 import Popper from '~/component/Popper';
 import config from '~/config';
-import CartHeader from '~/component/CartHeader';
+import CartHeader from '~/features/CartHeader';
+import { TranData } from '~/features/FeatureModel/FeatureModel';
 
 const cx = classNames.bind(styles);
 
@@ -49,6 +50,7 @@ const nodenav = [
 ];
 
 function Header() {
+    const [, , , , handleBreadCrumb] = useContext(TranData);
     return (
         <header className={cx('wrapper')}>
             <div className={cx('account')}>
@@ -108,7 +110,12 @@ function Header() {
                                             <ul className={cx('menu-nav-list')}>
                                                 {nodenav.map((node, index) => (
                                                     <li key={index} className={cx('items-nav')}>
-                                                        <Link className={cx('item-clo-link')} to={node.path}>
+                                                        <Link
+                                                            onClick={handleBreadCrumb}
+                                                            data-path={node.path}
+                                                            className={cx('item-clo-link')}
+                                                            to={node.path}
+                                                        >
                                                             {node.title}
                                                         </Link>
                                                     </li>
@@ -119,7 +126,12 @@ function Header() {
                                 )}
                             >
                                 <li className={cx('btn-items')}>
-                                    <Link to={config.routes.Allitem} className={cx('nav-link')}>
+                                    <Link
+                                        data-path={config.routes.Allitem}
+                                        onClick={handleBreadCrumb}
+                                        to={config.routes.Allitem}
+                                        className={cx('nav-link')}
+                                    >
                                         CLOTHING
                                         <span className={cx('arrow-down')}>
                                             <FontAwesomeIcon icon={faSortDown} />
@@ -129,7 +141,12 @@ function Header() {
                             </TippyHead>
                         </span>
                         <li className={cx('btn-items')}>
-                            <Link to={config.routes.Home} className={cx('nav-link')}>
+                            <Link
+                                data-path={config.routes.Contact}
+                                onClick={handleBreadCrumb}
+                                to={config.routes.Contact}
+                                className={cx('nav-link')}
+                            >
                                 CONTACT
                             </Link>
                         </li>

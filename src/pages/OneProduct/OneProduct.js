@@ -3,13 +3,13 @@ import classNames from 'classnames/bind';
 import { useContext, useEffect, useState } from 'react';
 
 import ItemDetail from '~/component/ItemDetail';
-import { TranData } from '~/component/FeatureModel/FeatureModel';
-import { requireAllProduct } from '~/services';
+import { TranData } from '~/features/FeatureModel/FeatureModel';
+import { RequirefilterProduct } from '~/services';
 
 const cx = classNames.bind(styles);
 
 function OneProduct() {
-    const [indexIdSwitch] = useContext(TranData);
+    const [indexIdSwitch, , , , , path] = useContext(TranData);
     const [product, setProduct] = useState([]);
 
     // call api reload page
@@ -19,8 +19,10 @@ function OneProduct() {
         }
         const filterProduct = async () => {
             const pathApi = window.location.pathname;
+            const headerPath = pathApi.split('-')[0];
+            const pathResult = headerPath.slice(2, headerPath.length);
             const indexId = pathApi.slice(pathApi.length - 1, pathApi.length);
-            const products = await requireAllProduct.filterProduct(indexId);
+            const products = await RequirefilterProduct.filterProduct(pathResult, indexId);
             setProduct(products);
         };
         filterProduct();
@@ -32,7 +34,7 @@ function OneProduct() {
             return;
         }
         const filterProduct = async () => {
-            const product = await requireAllProduct.filterProduct(indexIdSwitch);
+            const product = await RequirefilterProduct.filterProduct(path, indexIdSwitch);
             setProduct(product);
         };
         filterProduct();

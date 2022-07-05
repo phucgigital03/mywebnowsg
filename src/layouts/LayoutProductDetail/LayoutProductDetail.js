@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 
 import Header from '~/layouts/Component/Header';
 import Footer from '~/layouts/Component/Footer';
-import BreadCrumb from '~/component/BreadCrumb';
+import BreadCrumb from '~/features/BreadCrumb';
 
 const cx = classNames.bind(styles);
 

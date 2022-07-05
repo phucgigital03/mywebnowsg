@@ -1,18 +1,18 @@
-import styles from './AllProduct.module.scss';
+import styles from './AllProductHome.module.scss';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 
 import Products from '~/component/Products';
-import { requireAllProduct } from '~/services';
+import { RequireAllItem } from '~/services';
 
 const cx = classNames.bind(styles);
 
-function AllProduct() {
+function AllProductHome() {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
         const allProduct = async () => {
-            const allproduct = await requireAllProduct.getProduct();
+            const allproduct = await RequireAllItem.getAllItemHome();
             setProducts(allproduct);
         };
         allProduct();
@@ -30,4 +30,4 @@ function AllProduct() {
     );
 }
 
-export default AllProduct;
+export default AllProductHome;

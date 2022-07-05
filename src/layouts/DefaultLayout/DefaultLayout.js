@@ -1,15 +1,28 @@
 import styles from './DefaultLayout.module.scss';
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 
 import Header from '~/layouts/Component/Header';
 import Footer from '~/layouts/Component/Footer';
 import SideBar from '~/layouts/Component/SideBar';
-import BreadCrumb from '~/component/BreadCrumb';
+import BreadCrumb from '~/features/BreadCrumb';
+import { TranData } from '~/features/FeatureModel/FeatureModel';
 
 const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
+    const [, , , , , path] = useContext(TranData);
+    const [pathname, setPathName] = useState('');
+
+    useEffect(() => {
+        if (path.length > 1) {
+            setPathName(path);
+            return;
+        }
+        const pathWindow = window.location.pathname;
+        setPathName(pathWindow);
+    }, [path]);
+
     return (
         <div className={cx('wrapper')}>
             <Header />
@@ -19,7 +32,7 @@ function DefaultLayout({ children }) {
                     <SideBar />
                     <div className={cx('component-product')}>
                         <div className={cx('category-product')}>
-                            <h1 className={cx('title-address')}>Allitem</h1>
+                            <h1 className={cx('title-address')}>{pathname.slice(1, pathname.length)}</h1>
                             <div className={cx('sortpage')}>
                                 <label>Sắp xếp:</label>
                                 <select id="sortby" name="sortby">

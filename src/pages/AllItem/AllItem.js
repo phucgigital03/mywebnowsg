@@ -3,7 +3,7 @@ import className from 'classnames/bind';
 import { useEffect, useState } from 'react';
 
 import Products from '~/component/Products';
-import { requireAllProduct } from '~/services';
+import { RequireAllItem } from '~/services';
 
 const cx = className.bind(styles);
 
@@ -11,7 +11,7 @@ function Allitem() {
     const [products, setProduct] = useState([]);
     useEffect(() => {
         const allproduct = async () => {
-            const products = await requireAllProduct.getProduct();
+            const products = await RequireAllItem.getAllItem();
             setProduct(products);
         };
         allproduct();

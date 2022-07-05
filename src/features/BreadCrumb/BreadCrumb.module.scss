@@ -22,16 +22,28 @@
 
     & .item {
         list-style-type: none;
+        border-right: 2px solid rgb(110, 109, 109);
 
-        + .item {
-            margin-left: 10px;
+        & > .title {
+            text-transform: uppercase;
         }
 
         & > a {
             font-size: 1.4rem;
+            text-transform: uppercase;
             display: block;
             padding-right: 10px;
-            border-right: 2px solid rgb(110, 109, 109);
+            &:hover {
+                color: var(--blue-cart);
+            }
+        }
+
+        &:last-child {
+            border: none;
+        }
+
+        + .item {
+            margin-left: 10px;
         }
     }
 }

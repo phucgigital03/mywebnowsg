@@ -117,41 +117,29 @@ function ItemDetail({ product, handleCloseModel }) {
                         <div className={cx('watch-size')}>
                             <h3>Size:</h3>
                             {product[0].size.map((size, index) => {
-                                return index === indexInpSize ? (
+                                return (
                                     <InputSize
                                         dataid={index}
                                         onChange={handleGetIndexSize}
                                         key={index}
                                         value={size}
-                                        checked
+                                        checked={index === indexInpSize ? true : false}
                                     >
-                                        {size}
-                                    </InputSize>
-                                ) : (
-                                    <InputSize dataid={index} onChange={handleGetIndexSize} key={index} value={size}>
                                         {size}
                                     </InputSize>
                                 );
                             })}
-                            {console.log(product[0])}
                         </div>
                         <div className={cx('watch-color')}>
                             <h3>Màu sắc:</h3>
                             {product[0].color.map((color, index) => {
-                                return index === indexInpColor ? (
+                                return (
                                     <InputColor
                                         dataid={index}
                                         onChange={handleGetIndexColor}
                                         key={index}
                                         value={color}
-                                        checked
-                                    />
-                                ) : (
-                                    <InputColor
-                                        dataid={index}
-                                        onChange={handleGetIndexColor}
-                                        key={index}
-                                        value={color}
+                                        checked={index === indexInpColor ? true : false}
                                     />
                                 );
                             })}
