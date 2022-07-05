@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 import TippyHead from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { memo, useContext } from 'react';
+import { memo, useContext, useState } from 'react';
 
 import images from '~/assets/images';
 import Popper from '~/component/Popper';
 import config from '~/config';
 import CartHeader from '~/features/CartHeader';
+import { SignIn, Register } from '~/features/Form';
 import { TranData } from '~/features/FeatureModel/FeatureModel';
 
 const cx = classNames.bind(styles);
@@ -51,6 +52,23 @@ const nodenav = [
 
 function Header() {
     const [, , , , handleBreadCrumb] = useContext(TranData);
+    const [displayRegister, setDisplayRegister] = useState(false);
+    const [displaySignIn, setDisplaySignIn] = useState(false);
+
+    const handleDisplayRegister = () => {
+        setDisplayRegister(!displayRegister);
+    };
+
+    const handleDisplaySignIn = () => {
+        setDisplaySignIn(!displaySignIn);
+    };
+
+    // Form is SignIn or Register
+    const handleSwitchModelForm = () => {
+        setDisplayRegister(!displayRegister);
+        setDisplaySignIn(!displaySignIn);
+    };
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('account')}>
@@ -65,14 +83,26 @@ function Header() {
                     </div>
                     <ul className={cx('menu-btn')}>
                         <li className={cx('item')}>
-                            <a href="/" className={cx('link')}>
+                            <span className={cx('link')} onClick={handleDisplaySignIn}>
                                 Đăng nhập
-                            </a>
+                            </span>
+                            {displaySignIn && (
+                                <SignIn
+                                    handleDisplaySignIn={handleDisplaySignIn}
+                                    handleSwitchModelForm={handleSwitchModelForm}
+                                />
+                            )}
                         </li>
                         <li className={cx('item')}>
-                            <a href="/" className={cx('link')}>
+                            <span className={cx('link')} onClick={handleDisplayRegister}>
                                 Đăng ký
-                            </a>
+                            </span>
+                            {displayRegister && (
+                                <Register
+                                    handleDisplayRegister={handleDisplayRegister}
+                                    handleSwitchModelForm={handleSwitchModelForm}
+                                />
+                            )}
                         </li>
                         <li className={cx('item')}>
                             <a href="/" className={cx('link')}>

@@ -1,0 +1,40 @@
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+
+    + .form-group {
+        margin-top: 14px;
+    }
+
+    & > label {
+        font-size: 1.7rem;
+        line-height: 2.4rem;
+        margin-bottom: 4px;
+    }
+
+    & > input {
+        width: 100%;
+        max-width: 100%;
+        border: 1px solid #ccc;
+        padding: 10px 14px;
+        font-size: 1.8rem;
+        border-radius: 4px;
+    }
+
+    // when have messages error
+    & > .out-line {
+        border-color: red;
+    }
+
+    & > .messages {
+        line-height: 1.6rem;
+        display: block;
+        width: 100%;
+        font-size: 1.7rem;
+        color: red;
+        padding: 2px 10px;
+        margin-top: 8px;
+    }
+}

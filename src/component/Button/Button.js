@@ -9,6 +9,7 @@ function Button({
     href,
     dataid,
     children,
+    className,
     primary = false,
     disable = false,
     large = false,
@@ -42,6 +43,7 @@ function Button({
             href={href}
             to={to}
             className={cx('btn', {
+                [className]: className,
                 primary,
                 disable,
                 large,
