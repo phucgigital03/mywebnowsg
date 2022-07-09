@@ -1,6 +1,6 @@
 import styles from './SignIn.module.scss';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import Model from '~/features/Model';
 import Form from '~/features/Form/Component/Form';
@@ -16,10 +16,12 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
     const [messagesEmail, setMessagesEmail] = useState('');
     const [messagesPassword, setMessagesPassword] = useState('');
 
-    const handleDefaultDisplaySignIn = (event) => {
+    // no hidden model Signin
+    const handleDefaultDisplaySignIn = useCallback((event) => {
         event.stopPropagation();
-    };
+    }, []);
 
+    // handle email
     const handleChangeEmail = (e) => {
         setValueEmail(e.target.value);
     };
@@ -29,10 +31,11 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
         setMessagesEmail(messages);
     };
 
-    const handleFocusEmail = () => {
+    const handleFocusEmail = useCallback(() => {
         setMessagesEmail('');
-    };
+    }, []);
 
+    // handle password
     const handleChangePassWord = (e) => {
         setValuePassWord(e.target.value);
     };
@@ -46,6 +49,7 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
         setMessagesPassword('');
     };
 
+    // handle submit
     const handleSubmitForm = () => {
         if (!messagesEmail && !messagesPassword) {
             const userSigIn = {
@@ -93,7 +97,7 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
                         Đăng nhập
                     </Button>
                     <p className={cx('switch-model')}>
-                        Nếu bạn chưa có tài khoản, vui lòng đăng ký
+                        Nếu bạn chưa có tài khoản, vui lòng đăng ký{' '}
                         <span className={cx('btn-switch')} onClick={handleSwitchModelForm}>
                             tại đây
                         </span>

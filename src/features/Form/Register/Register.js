@@ -1,11 +1,12 @@
 import styles from './Register.module.scss';
 import classNames from 'classnames/bind';
+import { useState } from 'react';
 
 import Model from '~/features/Model';
 import Form from '~/features/Form/Component/Form';
 import FormGroup from '~/component/FormGroup';
 import Button from '~/component/Button';
-import { useState } from 'react';
+import Validation from '~/features/Form/Component/Validation';
 
 const cx = classNames.bind(styles);
 
@@ -14,41 +15,83 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
     const [valueLastName, setValueLastName] = useState('');
     const [valueEmail, setValueEmail] = useState('');
     const [valuePassWord, setValuePassWord] = useState('');
+    const [messagesFirstName, setMessagesFName] = useState('');
+    const [messagesLastName, setMessagesLname] = useState('');
+    const [messagesPassword, setMessagesPWord] = useState('');
+    const [messagesEmail, setMessagesEmail] = useState('');
 
     const handleDefaultDisplayRegister = (event) => {
         event.stopPropagation();
     };
 
+    // handle firstname
     const handleChangeFirstName = (e) => {
         setValueFirstName(e.target.value);
     };
 
-    const handleGetValueFirstName = () => {
-        console.log(valueFirstName);
+    const handleBlurFirstName = (event) => {
+        const messages = Validation(valueFirstName, event);
+        setMessagesFName(messages);
     };
 
+    const handleFocusFirstName = () => {
+        setMessagesFName('');
+    };
+
+    // handle lastname
     const handleChangeLastName = (e) => {
         setValueLastName(e.target.value);
     };
 
-    const handleGetValueLastName = () => {
-        console.log(valueLastName);
+    const handleBlurLastName = (event) => {
+        const messages = Validation(valueFirstName, event);
+        setMessagesLname(messages);
     };
 
+    const handleFocusLastName = () => {
+        setMessagesLname('');
+    };
+
+    // handel email
     const handleChangeEmail = (e) => {
         setValueEmail(e.target.value);
     };
 
-    const handleGetValueEmail = () => {
-        console.log(valueEmail);
+    const handleBlurEmail = (event) => {
+        const messages = Validation(valueEmail, event);
+        setMessagesEmail(messages);
     };
 
+    const handleFocusEmail = () => {
+        setMessagesEmail('');
+    };
+
+    // handle password
     const handleChangePassWord = (e) => {
         setValuePassWord(e.target.value);
     };
 
-    const handleGetValuePassWord = () => {
-        console.log(valuePassWord);
+    const handleBlurPassWord = (event) => {
+        const messages = Validation(valuePassWord, event);
+        setMessagesPWord(messages);
+    };
+
+    const handleFocusPassWord = () => {
+        setMessagesPWord('');
+    };
+
+    // handle submit register
+
+    const handleSubmit = () => {
+        if (!messagesEmail && !messagesFirstName && !messagesLastName && !messagesPassword) {
+            const formRegister = {
+                valueFirstName,
+                valueLastName,
+                valueEmail,
+                valuePassWord,
+            };
+            console.log(formRegister);
+        }
     };
 
     return (
@@ -65,8 +108,10 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                             placeholder={'Enter your firstname'}
                             type={'text'}
                             value={valueFirstName}
+                            messages={messagesFirstName}
+                            onFocus={handleFocusFirstName}
                             onChange={handleChangeFirstName}
-                            onBlur={handleGetValueFirstName}
+                            onBlur={handleBlurFirstName}
                         />
                         <FormGroup
                             id={'lastname'}
@@ -76,8 +121,10 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                             placeholder={'Enter your lastname'}
                             type={'text'}
                             value={valueLastName}
+                            messages={messagesLastName}
+                            onFocus={handleFocusLastName}
                             onChange={handleChangeLastName}
-                            onBlur={handleGetValueLastName}
+                            onBlur={handleBlurLastName}
                         />
                         <FormGroup
                             id={'email'}
@@ -87,8 +134,10 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                             placeholder={'Enter your email'}
                             type={'email'}
                             value={valueEmail}
+                            messages={messagesEmail}
+                            onFocus={handleFocusEmail}
                             onChange={handleChangeEmail}
-                            onBlur={handleGetValueEmail}
+                            onBlur={handleBlurEmail}
                         />
                         <FormGroup
                             id={'password'}
@@ -97,11 +146,13 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                             title={'Your password'}
                             placeholder={'Enter your password'}
                             type={'password'}
+                            messages={messagesPassword}
+                            onFocus={handleFocusPassWord}
                             onChange={handleChangePassWord}
-                            onBlur={handleGetValuePassWord}
+                            onBlur={handleBlurPassWord}
                         />
                     </Form>
-                    <Button primary className={cx('btn-register')}>
+                    <Button primary className={cx('btn-register')} onClick={handleSubmit}>
                         Đăng ký
                     </Button>
                     <p className={cx('switch-model')}>
