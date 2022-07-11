@@ -1,6 +1,6 @@
 import styles from './Register.module.scss';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import Model from '~/features/Model';
 import Form from '~/features/Form/Component/Form';
@@ -11,10 +11,11 @@ import Validation from '~/features/Form/Component/Validation';
 const cx = classNames.bind(styles);
 
 function Register({ handleDisplayRegister, handleSwitchModelForm }) {
-    const [valueFirstName, setValueFirstName] = useState('');
-    const [valueLastName, setValueLastName] = useState('');
-    const [valueEmail, setValueEmail] = useState('');
-    const [valuePassWord, setValuePassWord] = useState('');
+    const formRef = useRef();
+    const [firstname, setValueFirstName] = useState('');
+    const [lastname, setValueLastName] = useState('');
+    const [email, setValueEmail] = useState('');
+    const [password, setValuePassWord] = useState('');
     const [messagesFirstName, setMessagesFName] = useState('');
     const [messagesLastName, setMessagesLname] = useState('');
     const [messagesPassword, setMessagesPWord] = useState('');
@@ -30,7 +31,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
     };
 
     const handleBlurFirstName = (event) => {
-        const messages = Validation(valueFirstName, event);
+        const messages = Validation(firstname, event);
         setMessagesFName(messages);
     };
 
@@ -44,7 +45,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
     };
 
     const handleBlurLastName = (event) => {
-        const messages = Validation(valueFirstName, event);
+        const messages = Validation(firstname, event);
         setMessagesLname(messages);
     };
 
@@ -58,7 +59,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
     };
 
     const handleBlurEmail = (event) => {
-        const messages = Validation(valueEmail, event);
+        const messages = Validation(email, event);
         setMessagesEmail(messages);
     };
 
@@ -72,7 +73,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
     };
 
     const handleBlurPassWord = (event) => {
-        const messages = Validation(valuePassWord, event);
+        const messages = Validation(password, event);
         setMessagesPWord(messages);
     };
 
@@ -81,16 +82,46 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
     };
 
     // handle submit register
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
-    const handleSubmit = () => {
-        if (!messagesEmail && !messagesFirstName && !messagesLastName && !messagesPassword) {
-            const formRegister = {
-                valueFirstName,
-                valueLastName,
-                valueEmail,
-                valuePassWord,
+        // error messages when onclick btn
+        const arrinput = formRef.current.querySelectorAll('[name][rules]');
+        const messages = Array.from(arrinput).reduce((totalmessages, input) => {
+            const errorMess = Validation(input.value, { target: input });
+            if (errorMess) {
+                switch (input.name) {
+                    case 'firstname':
+                        setMessagesFName(errorMess);
+                        break;
+                    case 'lastname':
+                        setMessagesLname(errorMess);
+                        break;
+                    case 'email':
+                        setMessagesEmail(errorMess);
+                        break;
+                    case 'password':
+                        setMessagesPWord(errorMess);
+                        break;
+                    default:
+                        console.log('ko co type nao');
+                }
+            }
+            totalmessages.push(errorMess);
+            return totalmessages;
+        }, []);
+
+        // check dieu kien submit
+        const isvali = messages.some((message) => message);
+        if (!isvali) {
+            const formSignIn = {
+                firstname,
+                lastname,
+                email,
+                password,
             };
-            console.log(formRegister);
+
+            console.log(formSignIn);
         }
     };
 
@@ -99,7 +130,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
             <div className={cx('wrap-content')} onClick={handleDisplayRegister}>
                 <div className={cx('content')} onClick={handleDefaultDisplayRegister}>
                     <h3 className={cx('title')}>Đăng ký tài khoản</h3>
-                    <Form>
+                    <Form ref={formRef}>
                         <FormGroup
                             id={'firstname'}
                             name={'firstname'}
@@ -107,7 +138,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                             title={'Your firstname'}
                             placeholder={'Enter your firstname'}
                             type={'text'}
-                            value={valueFirstName}
+                            value={firstname}
                             messages={messagesFirstName}
                             onFocus={handleFocusFirstName}
                             onChange={handleChangeFirstName}
@@ -120,7 +151,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                             title={'Your lastname'}
                             placeholder={'Enter your lastname'}
                             type={'text'}
-                            value={valueLastName}
+                            value={lastname}
                             messages={messagesLastName}
                             onFocus={handleFocusLastName}
                             onChange={handleChangeLastName}
@@ -133,7 +164,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                             rules={'required|email'}
                             placeholder={'Enter your email'}
                             type={'email'}
-                            value={valueEmail}
+                            value={email}
                             messages={messagesEmail}
                             onFocus={handleFocusEmail}
                             onChange={handleChangeEmail}
@@ -151,10 +182,10 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                             onChange={handleChangePassWord}
                             onBlur={handleBlurPassWord}
                         />
+                        <Button primary className={cx('btn-register')} onClick={handleSubmit}>
+                            Đăng ký
+                        </Button>
                     </Form>
-                    <Button primary className={cx('btn-register')} onClick={handleSubmit}>
-                        Đăng ký
-                    </Button>
                     <p className={cx('switch-model')}>
                         Nếu bạn có tài khoản, vui lòng đăng nhập{' '}
                         <span className={cx('btn-switch')} onClick={handleSwitchModelForm}>

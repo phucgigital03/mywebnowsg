@@ -13,7 +13,7 @@ function App() {
                     const Content = route.component;
 
                     if (route.layout === null) {
-                        Layout = <Fragment />;
+                        Layout = Fragment;
                     } else if (route.layout) {
                         Layout = route.layout;
                     }

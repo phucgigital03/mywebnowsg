@@ -6,6 +6,8 @@ import Tee from '~/pages/Tee';
 import Sweater from '~/pages/Sweater';
 import OneProduct from '~/pages/OneProduct';
 import Contact from '~/pages/Contact';
+import FormPay from '~/pages/FormPay';
+import NotFound from '~/pages/NotFound';
 import { DefaultLayout, LayoutProductDetail } from '~/layouts';
 
 const routes = [
@@ -43,6 +45,16 @@ const routes = [
         path: config.routes.Contact,
         component: Contact,
         layout: LayoutProductDetail,
+    },
+    {
+        path: config.routes.Checkout,
+        component: FormPay,
+        layout: null,
+    },
+    {
+        path: config.routes.ErrorPages,
+        component: NotFound,
+        layout: null,
     },
 ];
 

@@ -1,6 +1,6 @@
 import styles from './SignIn.module.scss';
 import classNames from 'classnames/bind';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef } from 'react';
 
 import Model from '~/features/Model';
 import Form from '~/features/Form/Component/Form';
@@ -11,6 +11,7 @@ import Validation from '~/features/Form/Component/Validation';
 const cx = classNames.bind(styles);
 
 function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
+    const formRef = useRef();
     const [valueEmail, setValueEmail] = useState('');
     const [valuePassWord, setValuePassWord] = useState('');
     const [messagesEmail, setMessagesEmail] = useState('');
@@ -50,13 +51,38 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
     };
 
     // handle submit
-    const handleSubmitForm = () => {
-        if (!messagesEmail && !messagesPassword) {
-            const userSigIn = {
+    const handleSubmitForm = (event) => {
+        event.preventDefault();
+
+        // error messages when onclick btn
+        const arrinput = formRef.current.querySelectorAll('[name][rules]');
+        const messages = Array.from(arrinput).reduce((totalmessages, input) => {
+            const errorMess = Validation(input.value, { target: input });
+            if (errorMess) {
+                switch (input.name) {
+                    case 'email':
+                        setMessagesEmail(errorMess);
+                        break;
+                    case 'password':
+                        setMessagesPassword(errorMess);
+                        break;
+                    default:
+                        console.log('ko co type nao');
+                }
+            }
+            totalmessages.push(errorMess);
+            return totalmessages;
+        }, []);
+
+        // check dieu kien submit
+        const isvali = messages.some((message) => message);
+        if (!isvali) {
+            const formSignIn = {
                 valueEmail,
                 valuePassWord,
             };
-            console.log(userSigIn);
+
+            console.log(formSignIn);
         }
     };
 
@@ -65,7 +91,7 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
             <div className={cx('wrap-content')} onClick={handleDisplaySignIn}>
                 <div className={cx('content')} onClick={handleDefaultDisplaySignIn}>
                     <h3 className={cx('title')}>Đăng nhập tài khoản</h3>
-                    <Form>
+                    <Form ref={formRef}>
                         <FormGroup
                             id={'email'}
                             name={'email'}
@@ -82,7 +108,7 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
                         <FormGroup
                             id={'password'}
                             title={'Your password'}
-                            name={'email'}
+                            name={'password'}
                             rules={'required|min:7'}
                             messages={messagesPassword}
                             placeholder={'Enter your password'}
@@ -92,10 +118,10 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
                             onChange={handleChangePassWord}
                             onBlur={handleBlurInputPassWord}
                         />
+                        <Button primary className={cx('btn-signin')} onClick={handleSubmitForm}>
+                            Đăng nhập
+                        </Button>
                     </Form>
-                    <Button primary className={cx('btn-signin')} onClick={handleSubmitForm}>
-                        Đăng nhập
-                    </Button>
                     <p className={cx('switch-model')}>
                         Nếu bạn chưa có tài khoản, vui lòng đăng ký{' '}
                         <span className={cx('btn-switch')} onClick={handleSwitchModelForm}>

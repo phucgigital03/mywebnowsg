@@ -9,36 +9,44 @@ import { RequirefilterProduct } from '~/services';
 const cx = classNames.bind(styles);
 
 function OneProduct() {
-    const [indexIdSwitch, , , , , path] = useContext(TranData);
     const [product, setProduct] = useState([]);
+    const [indexIdSwitch, , , , , path, handleReloadBreadCrumb] = useContext(TranData);
 
-    // call api reload page
     useEffect(() => {
+        let indexId;
+        let pathName;
         if (indexIdSwitch) {
-            return;
-        }
-        const filterProduct = async () => {
+            indexId = indexIdSwitch;
+            pathName = path;
+        } else {
             const pathApi = window.location.pathname;
             const headerPath = pathApi.split('-')[0];
             const pathResult = headerPath.slice(2, headerPath.length);
-            const indexId = pathApi.slice(pathApi.length - 1, pathApi.length);
-            const products = await RequirefilterProduct.filterProduct(pathResult, indexId);
-            setProduct(products);
+            const indexPath = pathApi.slice(pathApi.length - 1, pathApi.length);
+            indexId = indexPath;
+            pathName = pathResult;
+        }
+        const filterProduct = async () => {
+            let idtimer;
+            const product = await new Promise(async (resolve, reject) => {
+                const product = await RequirefilterProduct.filterProduct(pathName, indexId);
+                idtimer = setTimeout(() => {
+                    resolve(product);
+                }, 1000);
+            });
+            clearTimeout(idtimer);
+            setProduct((prevProduct) => {
+                console.log(prevProduct);
+                if (product.length === 0) {
+                    return [...prevProduct];
+                } else {
+                    handleReloadBreadCrumb(product[0].path, product[0].nameProduct);
+                    return product;
+                }
+            });
         };
         filterProduct();
     }, []);
-
-    // call api when click choose
-    useEffect(() => {
-        if (!indexIdSwitch) {
-            return;
-        }
-        const filterProduct = async () => {
-            const product = await RequirefilterProduct.filterProduct(path, indexIdSwitch);
-            setProduct(product);
-        };
-        filterProduct();
-    }, [indexIdSwitch]);
 
     return (
         <div className={cx('one-product')}>

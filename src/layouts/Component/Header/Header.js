@@ -51,7 +51,7 @@ const nodenav = [
 ];
 
 function Header() {
-    const [, , , , handleBreadCrumb] = useContext(TranData);
+    const [, , , , , , handleReloadBreadCrumb] = useContext(TranData);
     const [displayRegister, setDisplayRegister] = useState(false);
     const [displaySignIn, setDisplaySignIn] = useState(false);
 
@@ -141,7 +141,6 @@ function Header() {
                                                 {nodenav.map((node, index) => (
                                                     <li key={index} className={cx('items-nav')}>
                                                         <Link
-                                                            onClick={handleBreadCrumb}
                                                             data-path={node.path}
                                                             className={cx('item-clo-link')}
                                                             to={node.path}
@@ -158,7 +157,6 @@ function Header() {
                                 <li className={cx('btn-items')}>
                                     <Link
                                         data-path={config.routes.Allitem}
-                                        onClick={handleBreadCrumb}
                                         to={config.routes.Allitem}
                                         className={cx('nav-link')}
                                     >
@@ -173,7 +171,9 @@ function Header() {
                         <li className={cx('btn-items')}>
                             <Link
                                 data-path={config.routes.Contact}
-                                onClick={handleBreadCrumb}
+                                onClick={() => {
+                                    handleReloadBreadCrumb(config.routes.Contact);
+                                }}
                                 to={config.routes.Contact}
                                 className={cx('nav-link')}
                             >
