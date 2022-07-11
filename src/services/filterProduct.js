@@ -9,7 +9,10 @@ export const filterProduct = async (path, id) => {
         });
         return res.data;
     } catch (error) {
-        console.log(error);
+        const res = await new Promise((resolve) => {
+            resolve([]);
+        });
+        return res;
     }
 };
 

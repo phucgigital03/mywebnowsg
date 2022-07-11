@@ -15,7 +15,6 @@ const routes = [
         path: config.routes.Home,
         component: AllProductHome,
     },
-
     {
         path: config.routes.Allitem,
         component: Allitem,

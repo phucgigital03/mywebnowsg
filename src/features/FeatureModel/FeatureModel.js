@@ -9,6 +9,16 @@ import { RequirefilterProduct } from '~/services';
 const cx = classNames.bind(styles);
 const TranData = createContext();
 
+function getPathandIndexId(event) {
+    const btnchoose = event.target;
+    const href = btnchoose.href;
+    const startPoint = href.indexOf('@') + 1;
+    const endPoint = href.indexOf('-');
+    const path = href.slice(startPoint, endPoint);
+    const indexIdSwitch = Number(btnchoose.dataset.id);
+    return [path, indexIdSwitch];
+}
+
 function FeatureModel({ children }) {
     const [indexId, setIndexId] = useState('');
     const [indexIdSwitch, setIndexIdSwitch] = useState('');
@@ -42,8 +52,8 @@ function FeatureModel({ children }) {
     };
 
     const handleSwitchPage = (event) => {
-        const btnchoose = event.target;
-        const indexIdSwitch = Number(btnchoose.dataset.id);
+        const [path, indexIdSwitch] = getPathandIndexId(event);
+        setPath(path);
         setIndexIdSwitch(indexIdSwitch);
     };
 
@@ -59,6 +69,7 @@ function FeatureModel({ children }) {
         filterProduct();
     }, [indexId]);
 
+    // data at feature
     const dataModelBreadCrumb = [
         indexIdSwitch,
         handleDisplayModel,

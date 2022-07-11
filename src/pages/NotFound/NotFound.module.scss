@@ -38,6 +38,10 @@
     color: white;
     background-color: var(--primary);
     padding: 14px 18px;
-    border-radius: 16px;
     cursor: pointer;
+    transition: all 0.25s ease;
+
+    &:hover {
+        background-color: var(--blue-cart);
+    }
 }

@@ -1,0 +1,28 @@
+.content {
+    padding-bottom: 50px;
+
+    .title {
+        font-size: 3rem;
+        font-weight: 400;
+        line-height: 4rem;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    .description {
+        line-height: 1.8rem;
+        font-size: 1.7rem;
+    }
+    .btn-switch-page {
+        margin-top: 31px;
+        font-size: 2rem;
+        background-color: red;
+        color: white;
+        padding: 12px 25px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+
+        &:hover {
+            background-color: var(--blue-cart);
+        }
+    }
+}
