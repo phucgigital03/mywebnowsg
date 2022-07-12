@@ -4,28 +4,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { memo, useContext } from 'react';
 
-import { Data } from '~/component/Storage';
-import { plusProduct, minusProduct, deleProduct, closeModelProductCart, turnOffModelCart } from '~/component/Storage';
+import { Data } from '~/Storage';
+import { plusProduct, minusProduct, deleProduct, closeModelProductCart, turnOffModelCart } from '~/Storage';
 import ModelCart from './ModelCart';
 
 const cx = classNames.bind(styles);
 
-function getIndAndManyProduct(event) {
+const getIndAndManyProduct = (event) => {
     const parentInputMany = event.target.closest('.parent');
     const inputMany = parentInputMany.querySelector('.input-value');
     const btnPlus = event.target.closest('.plus');
     const index = Number(btnPlus.dataset.id);
     const valueMany = Number(inputMany.value) + 1;
     return [index, valueMany];
-}
+};
 
-function getIndandInpManyProduct(event) {
+const getIndandInpManyProduct = (event) => {
     const parentInputMany = event.target.closest('.parent');
     const inputMany = parentInputMany.querySelector('.input-value');
     const btnMinus = event.target.closest('.minus');
     const index = Number(btnMinus.dataset.id);
     return [index, inputMany];
-}
+};
 
 function CartHeader() {
     const [state, dispatch] = useContext(Data);

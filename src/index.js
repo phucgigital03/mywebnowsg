@@ -4,7 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from '~/component/GlobalStyles/GlobalStyles';
 import FeatureModel from '~/features/FeatureModel';
-import Storage from '~/component/Storage';
+import Storage from '~/Storage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -15,10 +15,3 @@ export const filterProduct = async (path, id) => {
         return res;
     }
 };
-
-// export const filterProductPath = async (path, path_like) => {
-//     const res = await get(path, {
-//         path_like,
-//     });
-//     return res.data;
-// };

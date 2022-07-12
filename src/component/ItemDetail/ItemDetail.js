@@ -7,8 +7,8 @@ import { useState, useRef, memo, useContext } from 'react';
 import Button from '~/component/Button';
 import InputColor from './InputColor';
 import InputSize from './InputSize';
-import { Data } from '~/component/Storage';
-import { addProduct } from '~/component/Storage/';
+import { Data } from '~/Storage';
+import { addProduct } from '~/Storage/';
 import ListImage from './ListImage';
 
 const cx = classnames.bind(styles);
