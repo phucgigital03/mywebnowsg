@@ -1,19 +1,22 @@
 import styles from './AllProductHome.module.scss';
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import Products from '~/component/Products';
 import { RequireAllItem } from '~/services';
+import { TranData } from '~/features/FeatureModel/FeatureModel';
 
 const cx = classNames.bind(styles);
 
 function AllProductHome() {
+    const [, , , , handlePath] = useContext(TranData);
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
         const allProduct = async () => {
-            const allproduct = await RequireAllItem.getAllItemHome();
-            setProducts(allproduct);
+            const products = await RequireAllItem.getAllItemHome();
+            handlePath(products[0].path);
+            setProducts(products);
         };
         allProduct();
     }, []);

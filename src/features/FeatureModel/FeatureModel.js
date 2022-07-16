@@ -21,17 +21,15 @@ function getPathandIndexId(event) {
 
 function FeatureModel({ children }) {
     const [indexId, setIndexId] = useState('');
-    const [indexIdSwitch, setIndexIdSwitch] = useState('');
     const [display, setDisplay] = useState(true);
+    const [indexIdSwitch, setIndexIdSwitch] = useState('');
     const [product, setProduct] = useState([]);
     const [dataBreadCrumb, setDataBreadCrumb] = useState(['/']);
     const [path, setPath] = useState('');
 
     const handleDisplayModel = (e) => {
-        const pathNew = e.target.closest('.parent-item').dataset.path;
         const btnwatchfast = e.target;
         const indexId = Number(btnwatchfast.dataset.id);
-        setPath(pathNew);
         setDisplay(true);
         setIndexId(indexId);
     };
@@ -42,7 +40,7 @@ function FeatureModel({ children }) {
 
     // set title at DefaultLayout
     const handlePath = (path) => {
-        setPath(path);
+        setPath(path.slice(1, path.length));
     };
 
     const handleReloadBreadCrumb = (...path) => {
@@ -67,7 +65,7 @@ function FeatureModel({ children }) {
             setProduct(product);
         };
         filterProduct();
-    }, [indexId]);
+    }, [path, indexId]);
 
     // data at feature
     const dataModelBreadCrumb = [

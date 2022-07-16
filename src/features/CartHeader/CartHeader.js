@@ -5,60 +5,19 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { memo, useContext } from 'react';
 
 import { Data } from '~/Storage';
-import { plusProduct, minusProduct, deleProduct, closeModelProductCart, turnOffModelCart } from '~/Storage';
+import { closeModelProductCart } from '~/Storage';
 import ModelCart from './ModelCart';
 
 const cx = classNames.bind(styles);
 
-const getIndAndManyProduct = (event) => {
-    const parentInputMany = event.target.closest('.parent');
-    const inputMany = parentInputMany.querySelector('.input-value');
-    const btnPlus = event.target.closest('.plus');
-    const index = Number(btnPlus.dataset.id);
-    const valueMany = Number(inputMany.value) + 1;
-    return [index, valueMany];
-};
-
-const getIndandInpManyProduct = (event) => {
-    const parentInputMany = event.target.closest('.parent');
-    const inputMany = parentInputMany.querySelector('.input-value');
-    const btnMinus = event.target.closest('.minus');
-    const index = Number(btnMinus.dataset.id);
-    return [index, inputMany];
-};
-
 function CartHeader() {
-    const [state, dispatch] = useContext(Data);
+    const { state, dispatchWithMiddleWare } = useContext(Data);
     const { cartProduct, display } = state;
-
-    const handlePlusProduct = (event) => {
-        const [index, valueMany] = getIndAndManyProduct(event);
-        dispatch(plusProduct(index, valueMany));
-    };
-
-    const handleMinusProduct = (event) => {
-        let valueMany;
-        const [index, inputMany] = getIndandInpManyProduct(event);
-        if (Number(inputMany.value) !== 1) {
-            valueMany = Number(inputMany.value) - 1;
-            dispatch(minusProduct(index, valueMany));
-        }
-    };
-
-    const handledeleProduct = (e) => {
-        const btnDele = e.target.closest(`.dele-product`);
-        const index = btnDele.dataset.id;
-        dispatch(deleProduct(index));
-    };
 
     const handleCloseModelCart = (e) => {
         const inputCart = e.target;
         const checked = inputCart.checked;
-        dispatch(closeModelProductCart(checked));
-    };
-
-    const handleCloseModelCartBtn = () => {
-        dispatch(turnOffModelCart());
+        dispatchWithMiddleWare(closeModelProductCart(checked));
     };
 
     const handleDefaultCart = (e) => {
@@ -85,13 +44,7 @@ function CartHeader() {
                             ['animation-cart']: display,
                         })}
                     >
-                        <ModelCart
-                            cartProduct={cartProduct}
-                            handleCloseModelCartBtn={handleCloseModelCartBtn}
-                            handleMinusProduct={handleMinusProduct}
-                            handlePlusProduct={handlePlusProduct}
-                            handledeleProduct={handledeleProduct}
-                        />
+                        <ModelCart />
                     </div>
                 </label>
             )}

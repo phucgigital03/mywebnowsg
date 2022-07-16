@@ -1,15 +1,13 @@
-import styles from './Storage.module.scss';
-import classNames from 'classnames/bind';
-import { createContext, useReducer } from 'react';
-
+import { createContext } from 'react';
 import reducer, { initState } from './reducer';
+import useReducerWithMiddleWare from '~/hooks/useReducerWithMiddleWare';
+import middleWare from './middleWare';
 
-const cx = classNames.bind(styles);
 const Data = createContext();
 
 function Storage({ children }) {
-    const [state, dispatch] = useReducer(reducer, initState);
-    return <Data.Provider value={[state, dispatch]}>{children}</Data.Provider>;
+    const [state, dispatchWithMiddleWare] = useReducerWithMiddleWare(reducer, initState, middleWare);
+    return <Data.Provider value={{ state, dispatchWithMiddleWare }}>{children}</Data.Provider>;
 }
 
 export { Data };

@@ -1,4 +1,5 @@
 export const ADDPRODUCT = 'ADDPRODUCT';
+export const PATCHPRODUCT = 'PATCHPRODUCT';
 export const PLUSPRODUCT = 'PLUSPRODUCT';
 export const MINUSPRODUCT = 'MINUSPRODUCT';
 export const DELEPRODUCT = 'DELEPRODUCT';

@@ -32,7 +32,7 @@ function DefaultLayout({ children }) {
                     <SideBar />
                     <div className={cx('component-product')}>
                         <div className={cx('category-product')}>
-                            <h1 className={cx('title-address')}>{pathname.slice(1, pathname.length)}</h1>
+                            <h1 className={cx('title-address')}>{pathname}</h1>
                             <div className={cx('sortpage')}>
                                 <label>Sắp xếp:</label>
                                 <select id="sortby" name="sortby">

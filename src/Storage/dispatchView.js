@@ -1,5 +1,6 @@
 import {
     ADDPRODUCT,
+    PATCHPRODUCT,
     PLUSPRODUCT,
     MINUSPRODUCT,
     DELEPRODUCT,
@@ -10,6 +11,13 @@ import {
 export const addProduct = (payload) => {
     return {
         type: ADDPRODUCT,
+        payload,
+    };
+};
+
+export const updateProduct = (...payload) => {
+    return {
+        type: PATCHPRODUCT,
         payload,
     };
 };
