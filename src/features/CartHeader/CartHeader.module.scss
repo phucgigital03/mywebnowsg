@@ -8,16 +8,6 @@
     cursor: pointer;
 }
 
-.input-cart {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    opacity: 0;
-}
-
 .many {
     position: absolute;
     background-color: var(--blue-cart);
@@ -45,10 +35,24 @@
     left: 0;
     right: 0;
     bottom: 0;
-    display: flex;
+    display: none;
     justify-content: flex-end;
     z-index: 10;
     background-color: rgba(107, 106, 106, 0.7);
+}
+
+.input-cart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    opacity: 0;
+
+    &:checked ~ .show-cart {
+        display: flex;
+    }
 }
 
 .layout {

@@ -5,4 +5,8 @@ const images = {
     sweater: require('./sweater.webp'),
 };
 
+console.log(images.tee);
+console.log(images.sweater);
+console.log(images.pant);
+
 export default images;

@@ -1,5 +1,5 @@
 import { ADDPRODUCT, DELEPRODUCT, PATCHPRODUCT } from './action';
-import { postItem, deleItem, patchItem } from '~/services/cartHeader';
+import { postItem, deleItem, patchItem } from '~/services/cartProducts';
 
 const middleWare = async (action) => {
     let product;
@@ -10,7 +10,16 @@ const middleWare = async (action) => {
             return product;
         case PATCHPRODUCT:
             const [indexUpdate, id, dataPatch] = action.payload;
-            product = await patchItem(id, dataPatch);
+            if (id) {
+                let handler;
+                product = await new Promise((resolve) => {
+                    handler = setTimeout(async () => {
+                        const product = await patchItem(id, dataPatch);
+                        resolve(product);
+                    }, 100);
+                });
+                clearTimeout(handler);
+            }
             return [indexUpdate, product];
         case DELEPRODUCT:
             const iddele = action.payload;

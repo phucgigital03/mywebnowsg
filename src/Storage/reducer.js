@@ -17,8 +17,10 @@ const featureUpdateState = {
     PATCHPRODUCT(state, action) {
         const [indexUpdate, product] = action.payload;
         if (indexUpdate || indexUpdate === 0) {
-            state.cartProduct.splice(indexUpdate, 1, product);
-            localStoragefn.setLocal(KEY_CARTPRODUCT, state.cartProduct);
+            if (product) {
+                state.cartProduct.splice(indexUpdate, 1, product);
+                localStoragefn.setLocal(KEY_CARTPRODUCT, state.cartProduct);
+            }
         }
         return {
             ...state,

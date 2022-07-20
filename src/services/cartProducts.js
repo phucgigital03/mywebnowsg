@@ -15,6 +15,7 @@ export const patchItem = async (id, data) => {
         return res.data;
     } catch (err) {
         console.log(err);
+        return false;
     }
 };
 

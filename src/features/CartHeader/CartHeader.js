@@ -36,18 +36,16 @@ function CartHeader() {
                 checked={display ? true : false}
                 onChange={handleCloseModelCart}
             />
-            {display && (
-                <label className={cx('show-cart')}>
-                    <div
-                        onClick={handleDefaultCart}
-                        className={cx('layout', {
-                            ['animation-cart']: display,
-                        })}
-                    >
-                        <ModelCart />
-                    </div>
-                </label>
-            )}
+            <label className={cx('show-cart')}>
+                <div
+                    onClick={handleDefaultCart}
+                    className={cx('layout', {
+                        ['animation-cart']: display,
+                    })}
+                >
+                    <ModelCart />
+                </div>
+            </label>
         </div>
     );
 }

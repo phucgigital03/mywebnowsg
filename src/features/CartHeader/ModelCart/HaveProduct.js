@@ -2,7 +2,7 @@ import styles from './ModelCart.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import Button from '~/component/Button';
 import { updateProduct, deleProduct } from '~/Storage';
@@ -63,9 +63,6 @@ const getDataPatchMinus = (event, cartProduct, updateDataPatch) => {
 function HaveProduct() {
     const { state, dispatchWithMiddleWare } = useContext(Data);
     const { cartProduct } = state;
-    const [isBool, setIsBool] = useState('');
-
-    console.log(isBool);
 
     const handledeleProduct = (e) => {
         const btnDele = e.target.closest(`.dele-product`);
@@ -74,9 +71,7 @@ function HaveProduct() {
     };
 
     const handlePlus = (event) => {
-        setIsBool(Math.random() * 10);
         const { index, id, dataPatch } = getDataPatchPlus(event, cartProduct, updateDataPatch);
-        console.log(index);
         dispatchWithMiddleWare(updateProduct(index, id, dataPatch));
     };
 
@@ -116,7 +111,11 @@ function HaveProduct() {
                                 </div>
                                 <div productid={product.productid} className={cx('many-product', 'parent')}>
                                     <button className={cx('btn', 'minus')}>
-                                        <FontAwesomeIcon icon={faMinus} onClick={handleMinus} />
+                                        <FontAwesomeIcon
+                                            icon={faMinus}
+                                            onClick={handleMinus}
+                                            onDoubleClickCapture={handleMinus}
+                                        />
                                     </button>
                                     <input
                                         className={cx('many-input', 'input-value')}
@@ -124,7 +123,11 @@ function HaveProduct() {
                                         value={product.manyProduct}
                                         onChange={() => {}}
                                     />
-                                    <button className={cx('btn', 'plus')} onClick={handlePlus}>
+                                    <button
+                                        className={cx('btn', 'plus')}
+                                        onClick={handlePlus}
+                                        onDoubleClickCapture={handlePlus}
+                                    >
                                         <FontAwesomeIcon icon={faPlus} />
                                     </button>
                                 </div>
