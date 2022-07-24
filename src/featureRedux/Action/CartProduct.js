@@ -1,12 +1,12 @@
 import {
     ADDPRODUCT,
-    PATCHPRODUCT,
-    PLUSPRODUCT,
-    MINUSPRODUCT,
+    UPDATEPRODUCT,
     DELEPRODUCT,
+    MINUSPRODUCT,
+    PLUSPRODUCT,
     CLOSEMODELPRODUCTCART,
     CLOSEMODELPRODUCTCARTBTN,
-} from './action';
+} from '../Constant/CartProduct';
 
 export const addProduct = (payload) => {
     return {
@@ -17,7 +17,14 @@ export const addProduct = (payload) => {
 
 export const updateProduct = (...payload) => {
     return {
-        type: PATCHPRODUCT,
+        type: UPDATEPRODUCT,
+        payload,
+    };
+};
+
+export const deleProduct = (payload) => {
+    return {
+        type: DELEPRODUCT,
         payload,
     };
 };
@@ -32,13 +39,6 @@ export const plusProduct = (...payload) => {
 export const minusProduct = (...payload) => {
     return {
         type: MINUSPRODUCT,
-        payload,
-    };
-};
-
-export const deleProduct = (payload) => {
-    return {
-        type: DELEPRODUCT,
         payload,
     };
 };

@@ -21,21 +21,19 @@ function getPathandIndexId(event) {
 
 function FeatureModel({ children }) {
     const [indexId, setIndexId] = useState('');
-    const [display, setDisplay] = useState(true);
     const [indexIdSwitch, setIndexIdSwitch] = useState('');
     const [product, setProduct] = useState([]);
-    const [dataBreadCrumb, setDataBreadCrumb] = useState(['/']);
     const [path, setPath] = useState('');
+    const [dataBreadCrumb, setDataBreadCrumb] = useState(['/']);
 
     const handleDisplayModel = (e) => {
         const btnwatchfast = e.target;
         const indexId = Number(btnwatchfast.dataset.id);
-        setDisplay(true);
         setIndexId(indexId);
     };
 
     const handleCloseModel = useCallback(() => {
-        setDisplay(false);
+        setProduct([]);
     }, []);
 
     // set title at DefaultLayout
@@ -62,6 +60,7 @@ function FeatureModel({ children }) {
         }
         const filterProduct = async () => {
             const product = await RequirefilterProduct.filterProduct(path, indexId);
+            console.log(product);
             setProduct(product);
         };
         filterProduct();
@@ -82,7 +81,7 @@ function FeatureModel({ children }) {
         <>
             <TranData.Provider value={dataModelBreadCrumb}>
                 {children}
-                {display && product.length > 0 && (
+                {product.length > 0 && (
                     <Model className={cx('show')}>
                         <ModelProduct product={product} onClick={handleCloseModel} />
                     </Model>

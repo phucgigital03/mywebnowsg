@@ -2,20 +2,22 @@ import styles from './ModelCart.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
-import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import NoCart from './NoProduct';
 import HaveProduct from './HaveProduct';
-import { Data, turnOffModelCart } from '~/Storage';
+import { turnOffModelCart } from '~/featureRedux/Action/CartProduct';
 
 const cx = classNames.bind(styles);
 
 function ModelCart() {
-    const { state, dispatchWithMiddleWare } = useContext(Data);
-    const { cartProduct } = state;
+    const cartProducts = useSelector((state) => state.CartProducts.cartProducts);
+    const dispatch = useDispatch();
 
     const handleCloseModelCartBtn = () => {
-        dispatchWithMiddleWare(turnOffModelCart());
+        // console.log('render');
+        // e.preventDefault();
+        dispatch(turnOffModelCart());
     };
 
     return (
@@ -23,7 +25,7 @@ function ModelCart() {
             <button className={cx('close-model')} onClick={handleCloseModelCartBtn}>
                 <FontAwesomeIcon icon={faClose} />
             </button>
-            {cartProduct.length < 1 ? <NoCart /> : <HaveProduct />}
+            {cartProducts.length < 1 ? <NoCart /> : <HaveProduct />}
         </div>
     );
 }

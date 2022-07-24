@@ -2,14 +2,14 @@ import styles from './ItemDetail.module.scss';
 import classnames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-import { useState, useRef, memo, useContext } from 'react';
+import { useState, useRef, memo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Button from '~/component/Button';
 import InputColor from './InputColor';
 import InputSize from './InputSize';
 import ListImage from './ListImage';
-import { Data } from '~/Storage';
-import { addProduct, updateProduct } from '~/Storage/';
+import { addProductApi, patchProductApi } from '~/featureRedux/MiddleWare/CartProduct.js';
 
 const cx = classnames.bind(styles);
 
@@ -31,14 +31,14 @@ const createObjProduct = (manyRef, valueColor, valueSize, product) => {
     return objCreateProduct;
 };
 
-const calculatePriceOld = (cartProduct, indexUpdate) => {
-    const priceProductOld = Math.round(cartProduct[indexUpdate].price / cartProduct[indexUpdate].manyProduct);
+const calculatePriceOld = (cartProducts, indexUpdate) => {
+    const priceProductOld = Math.round(cartProducts[indexUpdate].price / cartProducts[indexUpdate].manyProduct);
     return priceProductOld;
 };
 
-const updatePriceAndMany = (cartProduct, payload, indexUpdate) => {
-    const priceProductOld = calculatePriceOld(cartProduct, indexUpdate);
-    const manyProduct = payload.manyProduct + cartProduct[indexUpdate].manyProduct;
+const updatePriceAndMany = (cartProducts, payload, indexUpdate) => {
+    const priceProductOld = calculatePriceOld(cartProducts, indexUpdate);
+    const manyProduct = payload.manyProduct + cartProducts[indexUpdate].manyProduct;
     const price = manyProduct * priceProductOld;
     return {
         price,
@@ -46,13 +46,13 @@ const updatePriceAndMany = (cartProduct, payload, indexUpdate) => {
     };
 };
 
-const checkProductSame = (cartProduct, payload) => {
+const checkProductSame = (cartProducts, payload) => {
     let id;
     let indexUpdate;
-    if (cartProduct.length === 0) {
+    if (cartProducts.length === 0) {
         return false;
     }
-    const isbool = cartProduct.some((product, index) => {
+    const isbool = cartProducts.some((product, index) => {
         id = product.id;
         indexUpdate = index;
         return (
@@ -65,8 +65,8 @@ const checkProductSame = (cartProduct, payload) => {
 };
 
 function ItemDetail({ product, handleCloseModel }) {
-    const { state, dispatchWithMiddleWare } = useContext(Data);
-    const { cartProduct } = state;
+    const cartProducts = useSelector((state) => state.CartProducts.cartProducts);
+    const dispatch = useDispatch();
     const manyRef = useRef();
     const [valueColor, setValueColor] = useState(product[0].color[0]);
     const [indexInpColor, setIndexInpColor] = useState(0);
@@ -109,13 +109,13 @@ function ItemDetail({ product, handleCloseModel }) {
     // handle add and patch product
     const handleAddorPatch = () => {
         const objCreateProduct = createObjProduct(manyRef, valueColor, valueSize, product[0]);
-        const { isbool, id, indexUpdate } = checkProductSame(cartProduct, objCreateProduct);
+        const { isbool, id, indexUpdate } = checkProductSame(cartProducts, objCreateProduct);
 
         if (isbool) {
-            const dataPatch = updatePriceAndMany(cartProduct, objCreateProduct, indexUpdate);
-            dispatchWithMiddleWare(updateProduct(indexUpdate, id, dataPatch));
+            const dataPatch = updatePriceAndMany(cartProducts, objCreateProduct, indexUpdate);
+            dispatch(patchProductApi([indexUpdate, id, dataPatch]));
         } else {
-            dispatchWithMiddleWare(addProduct(objCreateProduct));
+            dispatch(addProductApi(objCreateProduct));
         }
 
         if (handleCloseModel) {

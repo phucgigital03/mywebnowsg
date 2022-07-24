@@ -2,11 +2,10 @@ import styles from './ModelCart.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Button from '~/component/Button';
-import { updateProduct, deleProduct } from '~/Storage';
-import { Data } from '~/Storage';
+import { deleProductApi, patchProductApi } from '~/featureRedux/MiddleWare/CartProduct';
 
 const cx = classNames.bind(styles);
 
@@ -61,31 +60,31 @@ const getDataPatchMinus = (event, cartProduct, updateDataPatch) => {
 // handle calc price and many
 
 function HaveProduct() {
-    const { state, dispatchWithMiddleWare } = useContext(Data);
-    const { cartProduct } = state;
+    const cartProducts = useSelector((state) => state.CartProducts.cartProducts);
+    const dispatch = useDispatch();
 
     const handledeleProduct = (e) => {
         const btnDele = e.target.closest(`.dele-product`);
         const id = btnDele.dataset.id;
-        dispatchWithMiddleWare(deleProduct(id));
+        dispatch(deleProductApi(id));
     };
 
     const handlePlus = (event) => {
-        const { index, id, dataPatch } = getDataPatchPlus(event, cartProduct, updateDataPatch);
-        dispatchWithMiddleWare(updateProduct(index, id, dataPatch));
+        const { index, id, dataPatch } = getDataPatchPlus(event, cartProducts, updateDataPatch);
+        dispatch(patchProductApi([index, id, dataPatch]));
     };
 
     const handleMinus = (event) => {
-        const { index, id, dataPatch } = getDataPatchMinus(event, cartProduct, updateDataPatch);
+        const { index, id, dataPatch } = getDataPatchMinus(event, cartProducts, updateDataPatch);
         if (dataPatch.price) {
-            dispatchWithMiddleWare(updateProduct(index, id, dataPatch));
+            dispatch(patchProductApi([index, id, dataPatch]));
         }
     };
 
     return (
         <div className={cx('have-product')}>
             <ul className={cx('list-product')}>
-                {cartProduct.map((product, index) => (
+                {cartProducts.map((product, index) => (
                     <li key={index}>
                         <div className={cx('wrap-img')}>
                             <img src={product.imageProduct} alt="tee" />

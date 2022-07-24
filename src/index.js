@@ -1,20 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import App from './App';
 import GlobalStyles from '~/component/GlobalStyles/GlobalStyles';
 import FeatureModel from '~/features/FeatureModel';
-import Storage from '~/Storage';
+import store, { persistor } from './featureRedux/Store/Store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // <React.StrictMode>
     <GlobalStyles>
-        <Storage>
-            <FeatureModel>
-                <App />
-            </FeatureModel>
-        </Storage>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <FeatureModel>
+                    <App />
+                </FeatureModel>
+            </PersistGate>
+        </Provider>
     </GlobalStyles>,
     // </React.StrictMode>
 );
