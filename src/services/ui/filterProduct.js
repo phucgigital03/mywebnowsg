@@ -9,9 +9,6 @@ export const filterProduct = async (path, id) => {
         });
         return res.data;
     } catch (error) {
-        const res = await new Promise((resolve) => {
-            resolve([]);
-        });
-        return res;
+        return [];
     }
 };

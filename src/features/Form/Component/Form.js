@@ -4,9 +4,15 @@ import { forwardRef } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Form({ children }, ref) {
+function Form({ handleSubmitForm, children }, ref) {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        handleSubmitForm();
+    };
+
     return (
-        <form ref={ref} className={cx('form')}>
+        <form ref={ref} className={cx('form')} onSubmit={handleSubmit}>
             {children}
         </form>
     );

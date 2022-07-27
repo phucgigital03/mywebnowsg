@@ -5,6 +5,7 @@ import TippyHead from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { memo, useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import images from '~/assets/images';
 import Popper from '~/component/Popper';
@@ -12,6 +13,7 @@ import config from '~/config';
 import CartHeader from '~/features/CartHeader';
 import { SignIn, Register } from '~/features/Form';
 import { TranData } from '~/features/FeatureModel/FeatureModel';
+import { logout } from '~/featureRedux/Action/Authen';
 
 const cx = classNames.bind(styles);
 
@@ -51,9 +53,11 @@ const nodenav = [
 ];
 
 function Header() {
-    const [, , , , , , handleReloadBreadCrumb] = useContext(TranData);
+    const { handleReloadBreadCrumb } = useContext(TranData);
     const [displayRegister, setDisplayRegister] = useState(false);
     const [displaySignIn, setDisplaySignIn] = useState(false);
+    const authen = useSelector((state) => state.Authentication);
+    const dispatch = useDispatch();
 
     const handleDisplayRegister = () => {
         setDisplayRegister(!displayRegister);
@@ -69,6 +73,10 @@ function Header() {
         setDisplaySignIn(!displaySignIn);
     };
 
+    const handleLogOut = () => {
+        dispatch(logout());
+    };
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('account')}>
@@ -82,28 +90,43 @@ function Header() {
                         </span>
                     </div>
                     <ul className={cx('menu-btn')}>
-                        <li className={cx('item')}>
-                            <span className={cx('link')} onClick={handleDisplaySignIn}>
-                                Đăng nhập
-                            </span>
-                            {displaySignIn && (
-                                <SignIn
-                                    handleDisplaySignIn={handleDisplaySignIn}
-                                    handleSwitchModelForm={handleSwitchModelForm}
-                                />
-                            )}
-                        </li>
-                        <li className={cx('item')}>
-                            <span className={cx('link')} onClick={handleDisplayRegister}>
-                                Đăng ký
-                            </span>
-                            {displayRegister && (
-                                <Register
-                                    handleDisplayRegister={handleDisplayRegister}
-                                    handleSwitchModelForm={handleSwitchModelForm}
-                                />
-                            )}
-                        </li>
+                        {authen.user ? (
+                            <>
+                                <li className={cx('item')}>
+                                    <span className={cx('link')}>Tài khoản</span>
+                                </li>
+                                <li className={cx('item')}>
+                                    <span className={cx('link')} onClick={handleLogOut}>
+                                        Đăng xuất
+                                    </span>
+                                </li>
+                            </>
+                        ) : (
+                            <>
+                                <li className={cx('item')}>
+                                    <span className={cx('link')} onClick={handleDisplaySignIn}>
+                                        Đăng nhập
+                                    </span>
+                                    {displaySignIn && (
+                                        <SignIn
+                                            handleDisplaySignIn={handleDisplaySignIn}
+                                            handleSwitchModelForm={handleSwitchModelForm}
+                                        />
+                                    )}
+                                </li>
+                                <li className={cx('item')}>
+                                    <span className={cx('link')} onClick={handleDisplayRegister}>
+                                        Đăng ký
+                                    </span>
+                                    {displayRegister && (
+                                        <Register
+                                            handleDisplayRegister={handleDisplayRegister}
+                                            handleSwitchModelForm={handleSwitchModelForm}
+                                        />
+                                    )}
+                                </li>
+                            </>
+                        )}
                         <li className={cx('item')}>
                             <a href="/" className={cx('link')}>
                                 Liên hệ

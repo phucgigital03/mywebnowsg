@@ -1,16 +1,19 @@
 import styles from './Register.module.scss';
 import classNames from 'classnames/bind';
 import { useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Model from '~/features/Model';
 import Form from '~/features/Form/Component/Form';
 import FormGroup from '~/component/FormGroup';
 import Button from '~/component/Button';
 import Validation from '~/features/Form/Component/Validation';
+import { registerApi } from '~/featureRedux/MiddleWare/Authen';
 
 const cx = classNames.bind(styles);
 
 function Register({ handleDisplayRegister, handleSwitchModelForm }) {
+    const dispatch = useDispatch();
     const formRef = useRef();
     const [firstname, setValueFirstName] = useState('');
     const [lastname, setValueLastName] = useState('');
@@ -82,9 +85,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
     };
 
     // handle submit register
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
+    const handleSubmitForm = () => {
         // error messages when onclick btn
         const arrinput = formRef.current.querySelectorAll('[name][rules]');
         const messages = Array.from(arrinput).reduce((totalmessages, input) => {
@@ -121,7 +122,12 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                 password,
             };
 
-            console.log(formSignIn);
+            dispatch(registerApi(formSignIn));
+            setValueFirstName('');
+            setValueLastName('');
+            setValueEmail('');
+            setValuePassWord('');
+            handleSwitchModelForm();
         }
     };
 
@@ -130,7 +136,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
             <div className={cx('wrap-content')} onClick={handleDisplayRegister}>
                 <div className={cx('content')} onClick={handleDefaultDisplayRegister}>
                     <h3 className={cx('title')}>Đăng ký tài khoản</h3>
-                    <Form ref={formRef}>
+                    <Form ref={formRef} handleSubmitForm={handleSubmitForm}>
                         <FormGroup
                             id={'firstname'}
                             name={'firstname'}
@@ -178,11 +184,12 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                             placeholder={'Enter your password'}
                             type={'password'}
                             messages={messagesPassword}
+                            value={password}
                             onFocus={handleFocusPassWord}
                             onChange={handleChangePassWord}
                             onBlur={handleBlurPassWord}
                         />
-                        <Button primary className={cx('btn-register')} onClick={handleSubmit}>
+                        <Button primary className={cx('btn-register')}>
                             Đăng ký
                         </Button>
                     </Form>

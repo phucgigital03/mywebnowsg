@@ -3,13 +3,13 @@ import className from 'classnames/bind';
 import { useContext, useEffect, useState } from 'react';
 
 import Products from '~/component/Products';
-import { RequireAllItem } from '~/services';
+import { RequireAllItem } from '~/services/ui';
 import { TranData } from '~/features/FeatureModel/FeatureModel';
 
 const cx = className.bind(styles);
 
 function Allitem() {
-    const [, , , , handlePath, , handleReloadBreadCrumb] = useContext(TranData);
+    const { handlePath, handleReloadBreadCrumb } = useContext(TranData);
     const [products, setProduct] = useState([]);
     useEffect(() => {
         const allproduct = async () => {

@@ -3,7 +3,7 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 
 import CartProduct from './CartProduct';
-import User from './User';
+import Authen from './Authen';
 
 // component state small
 const cartProPersistConfig = {
@@ -21,7 +21,7 @@ const rootPersistConfig = {
 
 const RootReducer = combineReducers({
     CartProducts: persistReducer(cartProPersistConfig, CartProduct),
-    Users: User,
+    Authentication: Authen,
 });
 
 export default persistReducer(rootPersistConfig, RootReducer);

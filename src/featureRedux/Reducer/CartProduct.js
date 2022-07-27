@@ -19,7 +19,7 @@ const cartProductReducer = {
         return {
             ...state,
             display: true,
-            cartProducts: state.cartProducts,
+            cartProducts: [...state.cartProducts],
         };
     },
     DELEPRODUCT(state, action) {
@@ -29,9 +29,11 @@ const cartProductReducer = {
                 state.cartProducts.splice(index, 1);
             }
         });
+        const cartProductnew = [...state.cartProducts];
+        console.log(cartProductnew);
         return {
             ...state,
-            cartProducts: state.cartProducts,
+            cartProducts: cartProductnew,
         };
     },
     CLOSEMODELPRODUCTCART(state, action) {

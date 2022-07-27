@@ -10,7 +10,7 @@ function NotFound() {
     const navigation = useNavigate();
 
     const handleSwitchHome = () => {
-        navigation(config.routes.Home);
+        navigation(config.routes.Home, { replace: true });
     };
 
     return (

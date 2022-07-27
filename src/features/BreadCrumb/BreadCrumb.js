@@ -7,7 +7,7 @@ import { TranData } from '~/features/FeatureModel/FeatureModel';
 const cx = classNames.bind(styles);
 
 function BreadCrumb() {
-    const [, , , dataBreadCrumb] = useContext(TranData);
+    const { dataBreadCrumb } = useContext(TranData);
 
     console.log(dataBreadCrumb);
     return (

@@ -8,9 +8,9 @@ import { TranData } from '~/features/FeatureModel/FeatureModel';
 const cx = classNames.bind(styles);
 
 function Buttonproduct({ dataid, nameProduct, path }) {
+    const { handleDisplayModel, handleSwitchPage } = useContext(TranData);
     const nameResult = nameProduct.split(' ').join('');
     const pathResult = path.slice(1, path.length);
-    const [, handleDisplayModel, handleSwitchPage] = useContext(TranData);
     return (
         <div className={cx('wrapper-btn')}>
             <Button dataid={dataid} primary onClick={handleSwitchPage} to={`/@${pathResult}-${nameResult}-${dataid}`}>

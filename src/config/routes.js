@@ -11,6 +11,7 @@ const routes = {
     Jacket: '/jacket',
     Cap: '/cap',
     Sale: '/sale',
+    Account: '/account',
     ItemDetail: '/@:nameproduct',
     ErrorPages: '*',
 };

@@ -8,12 +8,12 @@ import HaveProduct from './HaveProduct';
 import NoProduct from './NoProduct';
 import Model from '~/features/Model';
 import { TranData } from '~/features/FeatureModel/FeatureModel';
-import { RequirefilterProduct } from '~/services';
+import { RequirefilterProduct } from '~/services/ui';
 
 const cx = classNames.bind(styles);
 
 function OneProduct() {
-    const [indexIdSwitch, , , , , path, handleReloadBreadCrumb] = useContext(TranData);
+    const { indexIdSwitch, path, handleReloadBreadCrumb } = useContext(TranData);
     const [product, setProduct] = useState([]);
     const [showModel, setShowModel] = useState(false);
 
@@ -42,7 +42,7 @@ function OneProduct() {
             let idtimer;
             setShowModel(true);
 
-            const product = await new Promise(async (resolve, reject) => {
+            const product = await new Promise(async (resolve) => {
                 const product = await RequirefilterProduct.filterProduct(pathName, indexId);
                 idtimer = setTimeout(() => {
                     resolve(product);

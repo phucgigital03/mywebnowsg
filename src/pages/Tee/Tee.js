@@ -2,7 +2,7 @@ import styles from './Tee.module.scss';
 import classNames from 'classnames/bind';
 import { useState, useEffect, useContext } from 'react';
 
-import { RequireTee } from '~/services';
+import { RequireTee } from '~/services/ui';
 import Products from '~/component/Products';
 import { TranData } from '~/features/FeatureModel/FeatureModel';
 
@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 
 function Tee() {
     const [products, setProduct] = useState([]);
-    const [, , , , handlePath, , handleReloadBreadCrumb] = useContext(TranData);
+    const { handlePath, handleReloadBreadCrumb } = useContext(TranData);
     useEffect(() => {
         const allproduct = async () => {
             const products = await RequireTee.getTee();

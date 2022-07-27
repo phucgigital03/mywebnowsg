@@ -2,17 +2,20 @@ import styles from './ModelProduct.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { useContext } from 'react';
 
 import ItemDetail from '~/component/ItemDetail';
+import { TranData } from '~/features/FeatureModel/FeatureModel';
 
 const cx = classNames.bind(styles);
 
-function ModelProduct({ product, onClick }) {
+function ModelProduct() {
+    const { product, handleCloseModel } = useContext(TranData);
     return (
         <div className={cx('layout-show')}>
             <div className={cx('content')}>
-                {product.length > 0 && <ItemDetail product={product} handleCloseModel={onClick} />}
-                <button className={cx('close')} onClick={onClick}>
+                <ItemDetail product={product} handleCloseModel={handleCloseModel} />
+                <button className={cx('close')} onClick={handleCloseModel}>
                     <FontAwesomeIcon icon={faClose} />
                 </button>
             </div>

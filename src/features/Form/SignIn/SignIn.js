@@ -1,16 +1,19 @@
 import styles from './SignIn.module.scss';
 import classNames from 'classnames/bind';
 import { useCallback, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
-import Model from '~/features/Model';
 import Form from '~/features/Form/Component/Form';
+import Model from '~/features/Model';
 import FormGroup from '~/component/FormGroup';
 import Button from '~/component/Button';
 import Validation from '~/features/Form/Component/Validation';
+import { signInApi } from '~/featureRedux/MiddleWare/Authen';
 
 const cx = classNames.bind(styles);
 
 function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
+    const dispatch = useDispatch();
     const formRef = useRef();
     const [valueEmail, setValueEmail] = useState('');
     const [valuePassWord, setValuePassWord] = useState('');
@@ -51,9 +54,7 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
     };
 
     // handle submit
-    const handleSubmitForm = (event) => {
-        event.preventDefault();
-
+    const handleSubmitForm = () => {
         // error messages when onclick btn
         const arrinput = formRef.current.querySelectorAll('[name][rules]');
         const messages = Array.from(arrinput).reduce((totalmessages, input) => {
@@ -82,7 +83,10 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
                 valuePassWord,
             };
 
-            console.log(formSignIn);
+            dispatch(signInApi(formSignIn));
+            setValueEmail('');
+            setValuePassWord('');
+            handleDisplaySignIn();
         }
     };
 
@@ -91,7 +95,7 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
             <div className={cx('wrap-content')} onClick={handleDisplaySignIn}>
                 <div className={cx('content')} onClick={handleDefaultDisplaySignIn}>
                     <h3 className={cx('title')}>Đăng nhập tài khoản</h3>
-                    <Form ref={formRef}>
+                    <Form ref={formRef} handleSubmitForm={handleSubmitForm}>
                         <FormGroup
                             id={'email'}
                             name={'email'}
@@ -118,7 +122,7 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
                             onChange={handleChangePassWord}
                             onBlur={handleBlurInputPassWord}
                         />
-                        <Button primary className={cx('btn-signin')} onClick={handleSubmitForm}>
+                        <Button primary className={cx('btn-signin')}>
                             Đăng nhập
                         </Button>
                     </Form>

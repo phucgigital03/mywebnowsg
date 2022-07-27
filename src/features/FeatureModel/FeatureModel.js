@@ -4,12 +4,12 @@ import { useState, createContext, useEffect, useCallback } from 'react';
 
 import Model from '~/features/Model';
 import ModelProduct from '~/features/Model/ModelProduct';
-import { RequirefilterProduct } from '~/services';
+import { RequirefilterProduct } from '~/services/ui';
 
 const cx = classNames.bind(styles);
 const TranData = createContext();
 
-function getPathandIndexId(event) {
+const getPathandIndexId = (event) => {
     const btnchoose = event.target;
     const href = btnchoose.href;
     const startPoint = href.indexOf('@') + 1;
@@ -17,13 +17,13 @@ function getPathandIndexId(event) {
     const path = href.slice(startPoint, endPoint);
     const indexIdSwitch = Number(btnchoose.dataset.id);
     return [path, indexIdSwitch];
-}
+};
 
 function FeatureModel({ children }) {
-    const [indexId, setIndexId] = useState('');
-    const [indexIdSwitch, setIndexIdSwitch] = useState('');
     const [product, setProduct] = useState([]);
+    const [indexId, setIndexId] = useState('');
     const [path, setPath] = useState('');
+    const [indexIdSwitch, setIndexIdSwitch] = useState('');
     const [dataBreadCrumb, setDataBreadCrumb] = useState(['/']);
 
     const handleDisplayModel = (e) => {
@@ -34,6 +34,7 @@ function FeatureModel({ children }) {
 
     const handleCloseModel = useCallback(() => {
         setProduct([]);
+        setIndexId('');
     }, []);
 
     // set title at DefaultLayout
@@ -60,22 +61,23 @@ function FeatureModel({ children }) {
         }
         const filterProduct = async () => {
             const product = await RequirefilterProduct.filterProduct(path, indexId);
-            console.log(product);
             setProduct(product);
         };
         filterProduct();
     }, [path, indexId]);
 
     // data at feature
-    const dataModelBreadCrumb = [
+    const dataModelBreadCrumb = {
+        product,
         indexIdSwitch,
-        handleDisplayModel,
-        handleSwitchPage,
         dataBreadCrumb,
-        handlePath,
         path,
+        handleSwitchPage,
+        handlePath,
+        handleDisplayModel,
         handleReloadBreadCrumb,
-    ];
+        handleCloseModel,
+    };
 
     return (
         <>
@@ -83,7 +85,7 @@ function FeatureModel({ children }) {
                 {children}
                 {product.length > 0 && (
                     <Model className={cx('show')}>
-                        <ModelProduct product={product} onClick={handleCloseModel} />
+                        <ModelProduct />
                     </Model>
                 )}
             </TranData.Provider>

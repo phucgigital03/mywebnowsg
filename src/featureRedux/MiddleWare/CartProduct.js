@@ -1,4 +1,4 @@
-import { postItem, deleItem, patchItem } from '~/services/cartProducts';
+import { postItem, deleItem, patchItem } from '~/services/ui/cartProducts';
 import { addProduct, updateProduct, deleProduct } from '../Action/CartProduct';
 
 export const addProductApi = (productItem) => {
