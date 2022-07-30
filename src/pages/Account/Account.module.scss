@@ -1,0 +1,48 @@
+.wrap-content {
+    display: flex;
+    flex-direction: column;
+
+    .wrap-form {
+        width: 546px;
+        padding: 0px 8px;
+        margin: 0px auto;
+        margin-top: 30px;
+
+        h3 {
+            font-size: 1.9rem;
+            font-weight: 400;
+            line-height: 2.2rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+            line-height: 4rem;
+            color: #545252;
+        }
+
+        .message {
+            color: var(--primary);
+        }
+
+        .btn-signin {
+            margin-top: 15px;
+
+            + .btn-signin {
+                margin-left: 15px;
+                width: 135px;
+            }
+        }
+    }
+}
+
+.title {
+    font-size: 1.9rem;
+    font-weight: 400;
+    padding-bottom: 11px;
+    line-height: 2.2rem;
+    border-bottom: 2px solid red;
+}
+
+.wrap-btn {
+    display: flex;
+}

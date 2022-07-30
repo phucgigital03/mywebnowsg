@@ -1,21 +1,22 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Fragment, memo, useEffect } from 'react';
+import { Fragment, memo } from 'react';
 
 import { DefaultHome } from './layouts';
 import routes from '~/router';
 import useAxiosPrivate from './hooks/useAxiosPrivate';
+import app from './firebase';
 
 function App() {
     const axiosRequired = useAxiosPrivate();
 
-    useEffect(() => {
-        const getUSer = async () => {
-            axiosRequired.get('me');
-            axiosRequired.get('shop');
-            axiosRequired.get('products3');
-        };
-        getUSer();
-    }, []);
+    // useEffect(() => {
+    //     const getUSer = async () => {
+    //         axiosRequired.get('me');
+    //         axiosRequired.get('shop');
+    //         axiosRequired.get('products3');
+    //     };
+    //     getUSer();
+    // }, []);
 
     return (
         <Router>

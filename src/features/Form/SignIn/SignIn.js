@@ -19,6 +19,7 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
     const [valuePassWord, setValuePassWord] = useState('');
     const [messagesEmail, setMessagesEmail] = useState('');
     const [messagesPassword, setMessagesPassword] = useState('');
+    const [errorMess, setErrorMess] = useState('');
 
     // no hidden model Signin
     const handleDefaultDisplaySignIn = useCallback((event) => {
@@ -79,14 +80,20 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
         const isvali = messages.some((message) => message);
         if (!isvali) {
             const formSignIn = {
-                valueEmail,
-                valuePassWord,
+                email: valueEmail,
+                password: valuePassWord,
             };
 
-            dispatch(signInApi(formSignIn));
-            setValueEmail('');
-            setValuePassWord('');
-            handleDisplaySignIn();
+            dispatch(signInApi(formSignIn)).then((res) => {
+                if (res) {
+                    setErrorMess(res);
+                } else {
+                    setValueEmail('');
+                    setValuePassWord('');
+                    setErrorMess('');
+                    handleDisplaySignIn();
+                }
+            });
         }
     };
 
@@ -126,6 +133,7 @@ function SignIn({ handleDisplaySignIn, handleSwitchModelForm }) {
                             Đăng nhập
                         </Button>
                     </Form>
+                    {errorMess && <p className={cx('errorMess')}>{errorMess}</p>}
                     <p className={cx('switch-model')}>
                         Nếu bạn chưa có tài khoản, vui lòng đăng ký{' '}
                         <span className={cx('btn-switch')} onClick={handleSwitchModelForm}>

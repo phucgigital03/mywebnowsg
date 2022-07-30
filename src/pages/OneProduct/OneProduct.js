@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { useLocation } from 'react-router-dom';
 
 import HaveProduct from './HaveProduct';
 import NoProduct from './NoProduct';
@@ -16,9 +17,10 @@ function OneProduct() {
     const { indexIdSwitch, path, handleReloadBreadCrumb } = useContext(TranData);
     const [product, setProduct] = useState([]);
     const [showModel, setShowModel] = useState(false);
+    const location = useLocation();
 
     const getPathIndexIDurl = useCallback(() => {
-        const pathApi = window.location.pathname;
+        const pathApi = location.pathname;
         const headerPath = pathApi.split('-')[0];
         const pathResult = headerPath.slice(2, headerPath.length);
         const indexPath = pathApi.slice(pathApi.length - 1, pathApi.length);

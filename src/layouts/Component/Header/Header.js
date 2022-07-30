@@ -13,7 +13,7 @@ import config from '~/config';
 import CartHeader from '~/features/CartHeader';
 import { SignIn, Register } from '~/features/Form';
 import { TranData } from '~/features/FeatureModel/FeatureModel';
-import { logout } from '~/featureRedux/Action/Authen';
+import { logOutApi } from '~/featureRedux/MiddleWare/Authen';
 
 const cx = classNames.bind(styles);
 
@@ -74,7 +74,7 @@ function Header() {
     };
 
     const handleLogOut = () => {
-        dispatch(logout());
+        dispatch(logOutApi());
     };
 
     return (

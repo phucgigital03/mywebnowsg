@@ -8,6 +8,7 @@ import OneProduct from '~/pages/OneProduct';
 import Contact from '~/pages/Contact';
 import FormPay from '~/pages/FormPay';
 import NotFound from '~/pages/NotFound';
+import Account from '~/pages/Account';
 import { DefaultLayout, LayoutProductDetail } from '~/layouts';
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
         path: config.routes.Checkout,
         component: FormPay,
         layout: null,
+    },
+    {
+        path: config.routes.Account,
+        component: Account,
+        layout: LayoutProductDetail,
     },
     {
         path: config.routes.ErrorPages,

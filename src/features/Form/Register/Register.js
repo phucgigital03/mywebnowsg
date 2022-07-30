@@ -23,6 +23,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
     const [messagesLastName, setMessagesLname] = useState('');
     const [messagesPassword, setMessagesPWord] = useState('');
     const [messagesEmail, setMessagesEmail] = useState('');
+    const [errorMess, setErrorMess] = useState('');
 
     const handleDefaultDisplayRegister = (event) => {
         event.stopPropagation();
@@ -122,12 +123,18 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                 password,
             };
 
-            dispatch(registerApi(formSignIn));
-            setValueFirstName('');
-            setValueLastName('');
-            setValueEmail('');
-            setValuePassWord('');
-            handleSwitchModelForm();
+            dispatch(registerApi(formSignIn)).then((res) => {
+                if (res) {
+                    setErrorMess(res);
+                } else {
+                    setValueFirstName('');
+                    setValueLastName('');
+                    setValueEmail('');
+                    setValuePassWord('');
+                    setErrorMess('');
+                    handleSwitchModelForm();
+                }
+            });
         }
     };
 
@@ -193,6 +200,7 @@ function Register({ handleDisplayRegister, handleSwitchModelForm }) {
                             Đăng ký
                         </Button>
                     </Form>
+                    {errorMess && <p className={cx('errorMes')}>{errorMess}</p>}
                     <p className={cx('switch-model')}>
                         Nếu bạn có tài khoản, vui lòng đăng nhập{' '}
                         <span className={cx('btn-switch')} onClick={handleSwitchModelForm}>

@@ -1,26 +1,27 @@
 const AuthenReducer = {
     REGISTER(state, action) {
-        const { user, token } = action.payload;
-        // localStorage.setItem('token', token);
-        console.log(user, token);
+        const { token, refreshToken } = action.payload;
         return {
             ...state,
-            token: token,
+            token,
+            refreshToken,
             user: null,
         };
     },
     SIGNIN(state, action) {
-        const { user, token } = action.payload;
+        const { user, token, refreshToken } = action.payload;
         return {
             ...state,
-            token: token,
-            user: user,
+            token,
+            refreshToken,
+            user,
         };
     },
     LOGOUT(state, action) {
         return {
             ...state,
             token: null,
+            refreshToken: null,
             user: null,
         };
     },
@@ -28,6 +29,7 @@ const AuthenReducer = {
 
 const initState = {
     token: null,
+    refreshToken: null,
     user: null,
 };
 

@@ -11,6 +11,10 @@
     justify-content: center;
     margin: auto;
     padding-top: 60px;
+
+    .errorMess {
+        color: var(--primary);
+    }
 }
 
 .content {
