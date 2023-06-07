@@ -39,8 +39,8 @@ function useAxiosPrivate() {
                     const newAccessToken = await refreshTokenRequired;
                     console.log(newAccessToken);
                     refreshTokenRequired = null;
-                    // prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-                    // return httpRequest(prevRequest);
+                    prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                    return httpRequest(prevRequest);
                 }
                 return Promise.reject(error);
             },
